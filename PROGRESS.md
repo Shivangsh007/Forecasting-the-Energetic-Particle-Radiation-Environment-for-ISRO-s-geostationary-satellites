@@ -798,5 +798,11 @@ verified with real headless-Edge screenshots at 1920/1366/1024/768/430 px, Live 
   mono; plotly modebar moved vertical-right + muted (was overlapping the legend); forecast
   legend anchored to grow upward into a raised top margin (was spilling over the plot on
   narrow widths); removed dead `.banner` CSS.
+- **GEO map fixed (follow-up, same day):** natural-earth projection cropped lon range
+  [-110,150] with a curved edge → flat **equirectangular, full world [-180,180]/[-90,90]**,
+  wireframe styling unchanged; fixed 220 px height + overflow guard on all plotly containers
+  (map/panels can never scroll internally). Verified programmatically (panel scrollWidth ==
+  clientWidth, no page h-scroll) + screenshots at 1920/1366/768/430 px — whole world edge to
+  edge, all GEO slots visible, no internal scroll.
 - **Regression:** cloud-mode AppTest re-run post-changes — Live + Replay render, no exception,
   perf panel present.

@@ -104,6 +104,9 @@ h1,h2,h3,h4,h5 { font-family:var(--cond)!important; letter-spacing:0.06em; }
 .telem-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
   gap:7px; margin-bottom:7px; }
 .telem-grid .panel { margin-bottom:0; }
+/* plotly charts: always fit their panel, never overflow/scroll */
+[data-testid="stPlotlyChart"], [data-testid="stPlotlyChart"] > div, .js-plotly-plot {
+  max-width:100%!important; overflow:hidden!important; }
 /* model-performance table (scrolls inside its wrapper, never the page) */
 .mp-wrap { overflow-x:auto; }
 table.mp { width:100%; border-collapse:collapse; font-family:var(--mono); }

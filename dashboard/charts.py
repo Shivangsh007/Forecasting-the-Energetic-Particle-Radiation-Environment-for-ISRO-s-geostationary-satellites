@@ -160,16 +160,19 @@ def map_figure(payload, selected_name):
         marker=dict(size=sizes, color=colors, opacity=0.95,
                     line=dict(color="#e8eefc", width=lines)),
         hovertemplate="%{text}<extra></extra>"))
-    fig.update_geos(projection_type="natural earth", bgcolor=BG,
+    # flat plate carree: whole world edge to edge (no cropped longitudes -- all
+    # GEO slots visible), no curved-globe distortion; fixed panel, never scrolls
+    fig.update_geos(projection_type="equirectangular", bgcolor=BG,
                     showland=True, landcolor=BG, showocean=True, oceancolor=BG,
-                    lakecolor=BG, showcountries=True,
+                    lakecolor=BG, showcountries=True, showframe=False,
                     coastlinecolor="rgba(210,222,248,0.42)", coastlinewidth=0.6,
                     countrycolor="rgba(210,222,248,0.22)", countrywidth=0.5,
-                    lataxis=dict(showgrid=True, gridcolor=GRIDC, gridwidth=0.5),
-                    lonaxis=dict(showgrid=True, gridcolor=GRIDC, gridwidth=0.5),
-                    center=dict(lon=60, lat=0), lataxis_range=[-55, 55],
-                    lonaxis_range=[-110, 150])
-    fig.update_layout(paper_bgcolor=BG, height=250, margin=dict(l=0, r=0, t=0, b=0),
+                    lataxis=dict(showgrid=True, gridcolor=GRIDC, gridwidth=0.5,
+                                 range=[-90, 90]),
+                    lonaxis=dict(showgrid=True, gridcolor=GRIDC, gridwidth=0.5,
+                                 range=[-180, 180]))
+    fig.update_layout(paper_bgcolor=BG, height=220, margin=dict(l=0, r=0, t=0, b=0),
+                      autosize=True,
                       font=dict(color=INK, family=MONO),
                       hoverlabel=dict(bgcolor="#0a0f1c", font=dict(family=MONO)))
     return fig
