@@ -1,0 +1,60 @@
+{
+  "form": "log10(goes_flux + 1) = a*log10(grasp_flux + 1) + b",
+  "averaging_scale_pearson_holdout": {
+    "5min": {
+      "n": 23529,
+      "pearson_log": 0.6365935398842634
+    },
+    "hourly": {
+      "n": 2202,
+      "pearson_log": 0.6734692294502556
+    },
+    "daily": {
+      "n": 93,
+      "pearson_log": 0.8680273007607031
+    }
+  },
+  "apply": "goes_equiv = clip(10**(a*log10(grasp+1) + b) - 1, 0, None)",
+  "a": 0.6050817723489774,
+  "b": 1.2733899964978261,
+  "r2_fit": 0.3778210033878182,
+  "fit_window": [
+    "2018-01-01",
+    "2018-06-01"
+  ],
+  "holdout_window": [
+    "2018-06-01",
+    "2019-01-01"
+  ],
+  "n_fit": 38595,
+  "n_holdout": 23529,
+  "holdout_results": {
+    "overall": {
+      "n": 23529,
+      "pearson_log": 0.6365935398842634,
+      "logRMSE_before": 0.7704693042010313,
+      "logRMSE_after": 0.6107834423327743,
+      "median_GOES/GRASP_before": 3.0888739898170696,
+      "median_GOES/calib_after": 0.8376825513372174
+    },
+    "storm_High": {
+      "n": 3971,
+      "pearson_log": 0.20915766089022556,
+      "logRMSE_before": 0.9564599437092994,
+      "logRMSE_after": 0.8087004125569893,
+      "median_GOES/GRASP_before": 4.106479803549495,
+      "median_GOES/calib_after": 2.7012131574006153
+    },
+    "quiet": {
+      "n": 19558,
+      "pearson_log": 0.4624812568610319,
+      "logRMSE_before": 0.7269174044290141,
+      "logRMSE_after": 0.5621522713963825,
+      "median_GOES/GRASP_before": 2.9536169925282847,
+      "median_GOES/calib_after": 0.7084864717934662
+    }
+  },
+  "provisional": true,
+  "caveat": "Single ~8-month 2018 overlap; GRASP(India)/GOES(US) at same UTC differ in LOCAL time (~8.2 h; GSAT-19 at 48E) so residual scatter is partly physical longitude/diurnal difference, not instrument error. Provisional.",
+  "purpose": "Report cross-longitude validation in GOES/training scale + characterise the Indian-longitude flux offset; NOT used in the live daemon."
+}

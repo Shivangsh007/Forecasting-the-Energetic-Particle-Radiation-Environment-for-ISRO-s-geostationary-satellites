@@ -1,0 +1,345 @@
+{
+  "30min": {
+    "regression": {
+      "overall": {
+        "n": 109495,
+        "xgb_rmse_log": 0.19946687696393436,
+        "xgb_rmse_raw": 532.3638784142618,
+        "xgb_r_log": 0.9479970653036227,
+        "xgb_r_raw": 0.9730827839830655,
+        "persist_rmse_log": 0.2352710871312022,
+        "persist_rmse_raw": 469.0764392044042,
+        "persist_r_log": 0.9284867411028632,
+        "persist_r_raw": 0.9788030096003753,
+        "horizon": "30min",
+        "subset": "overall"
+      },
+      "storm": {
+        "n": 7679,
+        "xgb_rmse_log": 0.28608717402423745,
+        "xgb_rmse_raw": 495.1388512595658,
+        "xgb_r_log": 0.8605976721944067,
+        "xgb_r_raw": 0.9090652401723479,
+        "persist_rmse_log": 0.3032673665488786,
+        "persist_rmse_raw": 550.1217144157758,
+        "persist_r_log": 0.8420241678389928,
+        "persist_r_raw": 0.896019995538873,
+        "horizon": "30min",
+        "subset": "storm"
+      },
+      "quiet": {
+        "n": 101816,
+        "xgb_rmse_log": 0.19135031273697686,
+        "xgb_rmse_raw": 535.0663873056073,
+        "xgb_r_log": 0.9522474419315072,
+        "xgb_r_raw": 0.9742078231913025,
+        "persist_rmse_log": 0.2293266128848874,
+        "persist_rmse_raw": 462.38824969524063,
+        "persist_r_log": 0.9323314491444673,
+        "persist_r_raw": 0.9803732291661699,
+        "horizon": "30min",
+        "subset": "quiet"
+      }
+    },
+    "threshold": {
+      "xgb": {
+        "hits": 24476,
+        "false_alarms": 1533,
+        "misses": 2548,
+        "corr_neg": 80938,
+        "POD": 0.9057134399052694,
+        "FAR": 0.05894113576069822,
+        "HSS": 0.8984690910418366,
+        "n_events_obs": 27024,
+        "n_events_fcst": 26009,
+        "horizon": "30min",
+        "model": "xgb",
+        "threshold_pfu": 1000.0
+      },
+      "persist": {
+        "hits": 24915,
+        "false_alarms": 2112,
+        "misses": 2109,
+        "corr_neg": 80359,
+        "POD": 0.9219582593250444,
+        "FAR": 0.07814407814407814,
+        "HSS": 0.8963158086549401,
+        "n_events_obs": 27024,
+        "n_events_fcst": 27027,
+        "horizon": "30min",
+        "model": "persist",
+        "threshold_pfu": 1000.0
+      }
+    },
+    "importance_groups": {
+      "flux_now": 0.6814833170872285,
+      "flux_history": 0.3083970502642108,
+      "coupling": 0.00028550036423073146,
+      "all_drivers": 0.010119632648560684,
+      "all_flux_autoregressive": 0.9898803673514394
+    },
+    "top_drivers": [
+      [
+        "SYM_H_roc_3h",
+        0.00047560146014722715
+      ],
+      [
+        "flow_speed_mean_24h",
+        0.000369791706904126
+      ],
+      [
+        "AE_INDEX_roc_1h",
+        0.00035590142384578425
+      ],
+      [
+        "SYM_H_roc_1h",
+        0.0003512218202977604
+      ],
+      [
+        "proton_density_mean_24h",
+        0.0003125064605899203
+      ],
+      [
+        "proton_density_mean_6h",
+        0.0003103197113605264
+      ]
+    ]
+  },
+  "6h": {
+    "regression": {
+      "overall": {
+        "n": 109201,
+        "xgb_rmse_log": 0.3412487245591544,
+        "xgb_rmse_raw": 1347.1581667168114,
+        "xgb_r_log": 0.8419529751635478,
+        "xgb_r_raw": 0.8181020025265989,
+        "persist_rmse_log": 0.4437019258867413,
+        "persist_rmse_raw": 1770.3101958439006,
+        "persist_r_log": 0.7487161304655209,
+        "persist_r_raw": 0.6987925775361172,
+        "horizon": "6h",
+        "subset": "overall"
+      },
+      "storm": {
+        "n": 7683,
+        "xgb_rmse_log": 0.3887208417658759,
+        "xgb_rmse_raw": 832.8459704360118,
+        "xgb_r_log": 0.7526042334984356,
+        "xgb_r_raw": 0.7900495118724772,
+        "persist_rmse_log": 0.5059622589263428,
+        "persist_rmse_raw": 1164.156906208898,
+        "persist_r_log": 0.6105235579679058,
+        "persist_r_raw": 0.6045650460797966,
+        "horizon": "6h",
+        "subset": "storm"
+      },
+      "quiet": {
+        "n": 101518,
+        "xgb_rmse_log": 0.3373841987683214,
+        "xgb_rmse_raw": 1378.2920765425288,
+        "xgb_r_log": 0.8467929368448318,
+        "xgb_r_raw": 0.8186078065658462,
+        "persist_rmse_log": 0.43863041830234084,
+        "persist_rmse_raw": 1807.9311547883078,
+        "persist_r_log": 0.7555501268329935,
+        "persist_r_raw": 0.7001287225766811,
+        "horizon": "6h",
+        "subset": "quiet"
+      }
+    },
+    "threshold": {
+      "xgb": {
+        "hits": 20123,
+        "false_alarms": 4606,
+        "misses": 6856,
+        "corr_neg": 77616,
+        "POD": 0.7458764224026094,
+        "FAR": 0.18625904808120022,
+        "HSS": 0.7097419290217523,
+        "n_events_obs": 26979,
+        "n_events_fcst": 24729,
+        "horizon": "6h",
+        "model": "xgb",
+        "threshold_pfu": 1000.0
+      },
+      "persist": {
+        "hits": 19236,
+        "false_alarms": 7729,
+        "misses": 7743,
+        "corr_neg": 74493,
+        "POD": 0.7129989992216168,
+        "FAR": 0.28663081772668275,
+        "HSS": 0.6191053197783069,
+        "n_events_obs": 26979,
+        "n_events_fcst": 26965,
+        "horizon": "6h",
+        "model": "persist",
+        "threshold_pfu": 1000.0
+      }
+    },
+    "importance_groups": {
+      "flux_now": 0.43594238266870156,
+      "flux_history": 0.41453852367785754,
+      "coupling": 0.0019319403560008046,
+      "all_drivers": 0.14951909365344088,
+      "all_flux_autoregressive": 0.850480906346559
+    },
+    "top_drivers": [
+      [
+        "SYM_H_mean_24h",
+        0.015782776760485475
+      ],
+      [
+        "flow_speed_mean_24h",
+        0.014736260504361394
+      ],
+      [
+        "proton_density_mean_6h",
+        0.011425897471845114
+      ],
+      [
+        "proton_density_std_24h",
+        0.009779357593027053
+      ],
+      [
+        "BZ_GSM_min_24h",
+        0.006091302628671394
+      ],
+      [
+        "proton_density_mean_1h",
+        0.005916702288319292
+      ]
+    ]
+  },
+  "12h": {
+    "regression": {
+      "overall": {
+        "n": 109016,
+        "xgb_rmse_log": 0.38133860913449164,
+        "xgb_rmse_raw": 1518.0784122641035,
+        "xgb_r_log": 0.8029814526243317,
+        "xgb_r_raw": 0.7506129479270629,
+        "persist_rmse_log": 0.5426629643571754,
+        "persist_rmse_raw": 2162.1937778979773,
+        "persist_r_log": 0.6264161086365869,
+        "persist_r_raw": 0.5512768801780866,
+        "horizon": "12h",
+        "subset": "overall"
+      },
+      "storm": {
+        "n": 7695,
+        "xgb_rmse_log": 0.4309420877539875,
+        "xgb_rmse_raw": 1035.1797049183308,
+        "xgb_r_log": 0.7424169418187484,
+        "xgb_r_raw": 0.7861570659264464,
+        "persist_rmse_log": 0.5930093003039464,
+        "persist_rmse_raw": 1571.5547319335449,
+        "persist_r_log": 0.508294916867527,
+        "persist_r_raw": 0.45750989880114756,
+        "horizon": "12h",
+        "subset": "storm"
+      },
+      "quiet": {
+        "n": 101321,
+        "xgb_rmse_log": 0.3773050391424294,
+        "xgb_rmse_raw": 1548.6128456683862,
+        "xgb_r_log": 0.8092386666431142,
+        "xgb_r_raw": 0.7499330659863159,
+        "persist_rmse_log": 0.538647092898429,
+        "persist_rmse_raw": 2200.583356469952,
+        "persist_r_log": 0.633596264488315,
+        "persist_r_raw": 0.5540181172992975,
+        "horizon": "12h",
+        "subset": "quiet"
+      }
+    },
+    "threshold": {
+      "xgb": {
+        "hits": 19322,
+        "false_alarms": 5658,
+        "misses": 7608,
+        "corr_neg": 76428,
+        "POD": 0.7174897883401411,
+        "FAR": 0.22650120096076862,
+        "HSS": 0.6647331678881435,
+        "n_events_obs": 26930,
+        "n_events_fcst": 24980,
+        "horizon": "12h",
+        "model": "xgb",
+        "threshold_pfu": 1000.0
+      },
+      "persist": {
+        "hits": 16602,
+        "false_alarms": 10317,
+        "misses": 10328,
+        "corr_neg": 71769,
+        "POD": 0.6164871890085407,
+        "FAR": 0.38326089379248857,
+        "HSS": 0.49086929422229436,
+        "n_events_obs": 26930,
+        "n_events_fcst": 26919,
+        "horizon": "12h",
+        "model": "persist",
+        "threshold_pfu": 1000.0
+      }
+    },
+    "importance_groups": {
+      "flux_now": 0.001229756994463647,
+      "flux_history": 0.6727132856997077,
+      "coupling": 0.001700385479585822,
+      "all_drivers": 0.32605695730582873,
+      "all_flux_autoregressive": 0.6739430426941713
+    },
+    "top_drivers": [
+      [
+        "SYM_H_mean_24h",
+        0.03585351511721996
+      ],
+      [
+        "flow_speed_mean_24h",
+        0.035456365667883606
+      ],
+      [
+        "proton_density_mean_6h",
+        0.032542187179692504
+      ],
+      [
+        "proton_density_std_24h",
+        0.022880608102684233
+      ],
+      [
+        "flow_speed_mean_6h",
+        0.01955638404156454
+      ],
+      [
+        "AE_INDEX_mean_24h",
+        0.010890908222365929
+      ]
+    ]
+  },
+  "diagnosis_30min": {
+    "storm": {
+      "n": 7679,
+      "frac_rows": 0.07013105621261245,
+      "xgb_rmse_raw": 495.1388512595658,
+      "persist_rmse_raw": 550.1217144157758,
+      "xgb_sse": 1882602699.482587,
+      "persist_sse": 2323925723.2583866,
+      "xgb_bias_raw": -61.13513026409372
+    },
+    "quiet": {
+      "n": 101816,
+      "frac_rows": 0.9298689437873876,
+      "xgb_rmse_raw": 535.0663873056073,
+      "persist_rmse_raw": 462.38824969524063,
+      "xgb_sse": 29149517488.93231,
+      "persist_sse": 21768555400.13933,
+      "xgb_bias_raw": -51.26314145294959
+    },
+    "sse_gap_total": 6939639065.017178,
+    "sse_gap_from_storm_pct": -6.359452121948465,
+    "xgb_sse_worst1pct_share": 0.647628871932926,
+    "worst1pct_median_symh": -22.0,
+    "worst1pct_frac_storm": 0.06398537477148081
+  }
+}

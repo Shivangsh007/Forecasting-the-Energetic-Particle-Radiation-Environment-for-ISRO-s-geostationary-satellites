@@ -1,0 +1,46 @@
+# Ignore GOES yearly data
+get_goes.py
+goes_2018.csv
+goes_2019.csv
+goes_2020.csv
+goes_2021.csv
+goes_2022.csv
+goes_2023.csv
+goes_2024.csv
+goes_2025.csv
+goes_temp.csv
+
+# Ignore OMNI yearly data
+get_omni.py
+omni_2018.csv
+omni_2019.csv
+omni_2020.csv
+omni_2021.csv
+omni_2022.csv
+omni_2023_full.csv
+omni_2024.csv
+omni_2025.csv
+
+merged_omni_goes.py
+goes_temp.nc
+
+# Python cache
+__pycache__/
+*.pyc
+
+training_data_2023_clean.csv
+training_data_2023.csv
+sci_mpsh-l2-avg5m_g16_d20230115_v2-0-3.nc
+
+features_master.parquet
+training_data_master_2018_2025.csv
+
+# Offline-pipeline-only large data (NOT needed by the deployed app; keep repo lean
+# for Streamlit Cloud). The deployed app uses features_replay_sample.parquet instead.
+datasets/
+data/grasp/raw/
+GRASP_data.zip
+omni_2017.csv
+
+# Local scratch
+scratchpad/

@@ -1,0 +1,12 @@
+# SolarSentinel — verified against actual imports across all shipped .py files
+# (audit 2026-07-06). Versions = the environment everything was built/tested on.
+numpy>=2.2
+pandas>=2.3
+pyarrow>=24.0          # parquet engine (implicit dependency of pandas.to_parquet)
+xgboost>=3.2
+matplotlib>=3.10       # feature-importance / lag-correlation plots
+streamlit>=1.58        # dashboard/app.py
+plotly>=6.8            # dashboard/charts.py
+xarray>=2025.6         # NCEI GOES NetCDF reading (get_goes.py, fit_flux_calibration.py)
+netCDF4>=1.7           # xarray engine for .nc files (implicit dependency)
+hapiclient>=0.2.9      # OMNI pulls from CDAWeb (get_omni.py)

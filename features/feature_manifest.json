@@ -1,0 +1,659 @@
+{
+  "meta": {
+    "source_csv": "training_data_master_2018_2025.csv",
+    "cadence_min": 5,
+    "carrington_days": 27.27,
+    "carrington_steps": 7854,
+    "lag_grid_max_hours": 72,
+    "top_n_lags": 3,
+    "known_limitation": "Coupling is a Bz-only rectified-southward proxy; full Newell coupling needs By/|B| (not in dataset)."
+  },
+  "target": {
+    "raw_col": "flux_2MeV",
+    "transform": "log10(x + 1)",
+    "inverse": "10**x - 1",
+    "log_col": "log_flux"
+  },
+  "horizons_steps": {
+    "30min": 6,
+    "6h": 72,
+    "12h": 144
+  },
+  "horizon_target_cols": {
+    "30min": "y_log_30min",
+    "6h": "y_log_6h",
+    "12h": "y_log_12h"
+  },
+  "feature_groups": {
+    "raw_current": [
+      "BZ_GSM",
+      "flow_speed",
+      "proton_density",
+      "AE_INDEX",
+      "SYM_H"
+    ],
+    "coupling_derived": [
+      "ec_newell_proxy",
+      "vbs_rect",
+      "p_dyn"
+    ],
+    "rate_of_change": [
+      "BZ_GSM_roc_1h",
+      "BZ_GSM_roc_3h",
+      "BZ_GSM_roc_6h",
+      "SYM_H_roc_1h",
+      "SYM_H_roc_3h",
+      "SYM_H_roc_6h",
+      "AE_INDEX_roc_1h",
+      "AE_INDEX_roc_3h",
+      "AE_INDEX_roc_6h",
+      "p_dyn_roc_1h",
+      "p_dyn_roc_3h",
+      "p_dyn_roc_6h",
+      "p_dyn_jump_1h",
+      "p_dyn_jump_3h"
+    ],
+    "rolling": [
+      "BZ_GSM_mean_1h",
+      "BZ_GSM_mean_6h",
+      "BZ_GSM_mean_24h",
+      "BZ_GSM_std_6h",
+      "BZ_GSM_std_24h",
+      "flow_speed_mean_1h",
+      "flow_speed_mean_6h",
+      "flow_speed_mean_24h",
+      "flow_speed_std_6h",
+      "flow_speed_std_24h",
+      "proton_density_mean_1h",
+      "proton_density_mean_6h",
+      "proton_density_mean_24h",
+      "proton_density_std_6h",
+      "proton_density_std_24h",
+      "AE_INDEX_mean_1h",
+      "AE_INDEX_mean_6h",
+      "AE_INDEX_mean_24h",
+      "AE_INDEX_std_6h",
+      "AE_INDEX_std_24h",
+      "SYM_H_mean_1h",
+      "SYM_H_mean_6h",
+      "SYM_H_mean_24h",
+      "SYM_H_std_6h",
+      "SYM_H_std_24h",
+      "AE_INDEX_max_24h",
+      "SYM_H_min_24h",
+      "BZ_GSM_min_24h",
+      "flow_speed_max_24h"
+    ],
+    "carrington": [
+      "BZ_GSM_carr",
+      "flow_speed_carr",
+      "proton_density_carr",
+      "AE_INDEX_carr",
+      "SYM_H_carr",
+      "log_flux_carr"
+    ],
+    "flux_autoregressive": [
+      "flux_now",
+      "flux_lag_1h",
+      "flux_lag_3h",
+      "flux_lag_6h",
+      "flux_lag_12h",
+      "flux_mean_1h",
+      "flux_mean_6h",
+      "flux_mean_24h",
+      "flux_std_6h",
+      "flux_std_24h",
+      "flux_trend_6h",
+      "flux_trend_15min",
+      "flux_std_15min",
+      "flux_trend_30min",
+      "flux_std_30min"
+    ],
+    "lags_materialized": [
+      "BZ_GSM_lag654",
+      "BZ_GSM_lag792",
+      "flow_speed_lag438",
+      "flow_speed_lag576",
+      "flow_speed_lag648",
+      "proton_density_lag66",
+      "proton_density_lag204",
+      "AE_INDEX_lag720",
+      "AE_INDEX_lag858",
+      "SYM_H_lag582",
+      "SYM_H_lag720"
+    ]
+  },
+  "materialized_lags_per_var": {
+    "BZ_GSM": [
+      654,
+      792
+    ],
+    "flow_speed": [
+      438,
+      576,
+      648
+    ],
+    "proton_density": [
+      66,
+      204
+    ],
+    "AE_INDEX": [
+      720,
+      858
+    ],
+    "SYM_H": [
+      582,
+      720
+    ]
+  },
+  "selected_lags_per_horizon": {
+    "30min": {
+      "BZ_GSM": [
+        {
+          "lag_steps": 792,
+          "lag_hours": 66.0,
+          "r": -0.0786
+        },
+        {
+          "lag_steps": 756,
+          "lag_hours": 63.0,
+          "r": -0.0775
+        },
+        {
+          "lag_steps": 828,
+          "lag_hours": 69.0,
+          "r": -0.0761
+        }
+      ],
+      "flow_speed": [
+        {
+          "lag_steps": 576,
+          "lag_hours": 48.0,
+          "r": 0.5216
+        },
+        {
+          "lag_steps": 648,
+          "lag_hours": 54.0,
+          "r": 0.5215
+        },
+        {
+          "lag_steps": 612,
+          "lag_hours": 51.0,
+          "r": 0.5212
+        }
+      ],
+      "proton_density": [
+        {
+          "lag_steps": 204,
+          "lag_hours": 17.0,
+          "r": -0.3348
+        },
+        {
+          "lag_steps": 240,
+          "lag_hours": 20.0,
+          "r": -0.3328
+        },
+        {
+          "lag_steps": 168,
+          "lag_hours": 14.0,
+          "r": -0.3314
+        }
+      ],
+      "AE_INDEX": [
+        {
+          "lag_steps": 858,
+          "lag_hours": 71.5,
+          "r": 0.2738
+        },
+        {
+          "lag_steps": 822,
+          "lag_hours": 68.5,
+          "r": 0.2698
+        },
+        {
+          "lag_steps": 786,
+          "lag_hours": 65.5,
+          "r": 0.2592
+        }
+      ],
+      "SYM_H": [
+        {
+          "lag_steps": 720,
+          "lag_hours": 60.0,
+          "r": -0.2989
+        },
+        {
+          "lag_steps": 684,
+          "lag_hours": 57.0,
+          "r": -0.2971
+        },
+        {
+          "lag_steps": 756,
+          "lag_hours": 63.0,
+          "r": -0.2956
+        }
+      ]
+    },
+    "6h": {
+      "BZ_GSM": [
+        {
+          "lag_steps": 726,
+          "lag_hours": 60.5,
+          "r": -0.0786
+        },
+        {
+          "lag_steps": 690,
+          "lag_hours": 57.5,
+          "r": -0.0775
+        },
+        {
+          "lag_steps": 762,
+          "lag_hours": 63.5,
+          "r": -0.0761
+        }
+      ],
+      "flow_speed": [
+        {
+          "lag_steps": 510,
+          "lag_hours": 42.5,
+          "r": 0.5216
+        },
+        {
+          "lag_steps": 582,
+          "lag_hours": 48.5,
+          "r": 0.5215
+        },
+        {
+          "lag_steps": 546,
+          "lag_hours": 45.5,
+          "r": 0.5212
+        }
+      ],
+      "proton_density": [
+        {
+          "lag_steps": 138,
+          "lag_hours": 11.5,
+          "r": -0.3348
+        },
+        {
+          "lag_steps": 174,
+          "lag_hours": 14.5,
+          "r": -0.3328
+        },
+        {
+          "lag_steps": 102,
+          "lag_hours": 8.5,
+          "r": -0.3314
+        }
+      ],
+      "AE_INDEX": [
+        {
+          "lag_steps": 792,
+          "lag_hours": 66.0,
+          "r": 0.2738
+        },
+        {
+          "lag_steps": 756,
+          "lag_hours": 63.0,
+          "r": 0.2698
+        },
+        {
+          "lag_steps": 828,
+          "lag_hours": 69.0,
+          "r": 0.2695
+        }
+      ],
+      "SYM_H": [
+        {
+          "lag_steps": 654,
+          "lag_hours": 54.5,
+          "r": -0.2989
+        },
+        {
+          "lag_steps": 618,
+          "lag_hours": 51.5,
+          "r": -0.2971
+        },
+        {
+          "lag_steps": 690,
+          "lag_hours": 57.5,
+          "r": -0.2956
+        }
+      ]
+    },
+    "12h": {
+      "BZ_GSM": [
+        {
+          "lag_steps": 654,
+          "lag_hours": 54.5,
+          "r": -0.0786
+        },
+        {
+          "lag_steps": 618,
+          "lag_hours": 51.5,
+          "r": -0.0775
+        },
+        {
+          "lag_steps": 690,
+          "lag_hours": 57.5,
+          "r": -0.0761
+        }
+      ],
+      "flow_speed": [
+        {
+          "lag_steps": 438,
+          "lag_hours": 36.5,
+          "r": 0.5216
+        },
+        {
+          "lag_steps": 510,
+          "lag_hours": 42.5,
+          "r": 0.5215
+        },
+        {
+          "lag_steps": 474,
+          "lag_hours": 39.5,
+          "r": 0.5212
+        }
+      ],
+      "proton_density": [
+        {
+          "lag_steps": 66,
+          "lag_hours": 5.5,
+          "r": -0.3348
+        },
+        {
+          "lag_steps": 102,
+          "lag_hours": 8.5,
+          "r": -0.3328
+        },
+        {
+          "lag_steps": 30,
+          "lag_hours": 2.5,
+          "r": -0.3314
+        }
+      ],
+      "AE_INDEX": [
+        {
+          "lag_steps": 720,
+          "lag_hours": 60.0,
+          "r": 0.2738
+        },
+        {
+          "lag_steps": 684,
+          "lag_hours": 57.0,
+          "r": 0.2698
+        },
+        {
+          "lag_steps": 756,
+          "lag_hours": 63.0,
+          "r": 0.2695
+        }
+      ],
+      "SYM_H": [
+        {
+          "lag_steps": 582,
+          "lag_hours": 48.5,
+          "r": -0.2989
+        },
+        {
+          "lag_steps": 546,
+          "lag_hours": 45.5,
+          "r": -0.2971
+        },
+        {
+          "lag_steps": 618,
+          "lag_hours": 51.5,
+          "r": -0.2956
+        }
+      ]
+    }
+  },
+  "horizon_feature_columns": {
+    "30min": [
+      "BZ_GSM",
+      "flow_speed",
+      "proton_density",
+      "AE_INDEX",
+      "SYM_H",
+      "ec_newell_proxy",
+      "vbs_rect",
+      "p_dyn",
+      "BZ_GSM_roc_1h",
+      "BZ_GSM_roc_3h",
+      "BZ_GSM_roc_6h",
+      "SYM_H_roc_1h",
+      "SYM_H_roc_3h",
+      "SYM_H_roc_6h",
+      "AE_INDEX_roc_1h",
+      "AE_INDEX_roc_3h",
+      "AE_INDEX_roc_6h",
+      "p_dyn_roc_1h",
+      "p_dyn_roc_3h",
+      "p_dyn_roc_6h",
+      "p_dyn_jump_1h",
+      "p_dyn_jump_3h",
+      "BZ_GSM_mean_1h",
+      "BZ_GSM_mean_6h",
+      "BZ_GSM_mean_24h",
+      "BZ_GSM_std_6h",
+      "BZ_GSM_std_24h",
+      "flow_speed_mean_1h",
+      "flow_speed_mean_6h",
+      "flow_speed_mean_24h",
+      "flow_speed_std_6h",
+      "flow_speed_std_24h",
+      "proton_density_mean_1h",
+      "proton_density_mean_6h",
+      "proton_density_mean_24h",
+      "proton_density_std_6h",
+      "proton_density_std_24h",
+      "AE_INDEX_mean_1h",
+      "AE_INDEX_mean_6h",
+      "AE_INDEX_mean_24h",
+      "AE_INDEX_std_6h",
+      "AE_INDEX_std_24h",
+      "SYM_H_mean_1h",
+      "SYM_H_mean_6h",
+      "SYM_H_mean_24h",
+      "SYM_H_std_6h",
+      "SYM_H_std_24h",
+      "AE_INDEX_max_24h",
+      "SYM_H_min_24h",
+      "BZ_GSM_min_24h",
+      "flow_speed_max_24h",
+      "BZ_GSM_carr",
+      "flow_speed_carr",
+      "proton_density_carr",
+      "AE_INDEX_carr",
+      "SYM_H_carr",
+      "log_flux_carr",
+      "flux_now",
+      "flux_lag_1h",
+      "flux_lag_3h",
+      "flux_lag_6h",
+      "flux_lag_12h",
+      "flux_mean_1h",
+      "flux_mean_6h",
+      "flux_mean_24h",
+      "flux_std_6h",
+      "flux_std_24h",
+      "flux_trend_6h",
+      "flux_trend_15min",
+      "flux_std_15min",
+      "flux_trend_30min",
+      "flux_std_30min",
+      "BZ_GSM_lag792",
+      "flow_speed_lag576",
+      "flow_speed_lag648",
+      "proton_density_lag204",
+      "AE_INDEX_lag858",
+      "AE_INDEX_lag720",
+      "SYM_H_lag720"
+    ],
+    "6h": [
+      "BZ_GSM",
+      "flow_speed",
+      "proton_density",
+      "AE_INDEX",
+      "SYM_H",
+      "ec_newell_proxy",
+      "vbs_rect",
+      "p_dyn",
+      "BZ_GSM_roc_1h",
+      "BZ_GSM_roc_3h",
+      "BZ_GSM_roc_6h",
+      "SYM_H_roc_1h",
+      "SYM_H_roc_3h",
+      "SYM_H_roc_6h",
+      "AE_INDEX_roc_1h",
+      "AE_INDEX_roc_3h",
+      "AE_INDEX_roc_6h",
+      "p_dyn_roc_1h",
+      "p_dyn_roc_3h",
+      "p_dyn_roc_6h",
+      "p_dyn_jump_1h",
+      "p_dyn_jump_3h",
+      "BZ_GSM_mean_1h",
+      "BZ_GSM_mean_6h",
+      "BZ_GSM_mean_24h",
+      "BZ_GSM_std_6h",
+      "BZ_GSM_std_24h",
+      "flow_speed_mean_1h",
+      "flow_speed_mean_6h",
+      "flow_speed_mean_24h",
+      "flow_speed_std_6h",
+      "flow_speed_std_24h",
+      "proton_density_mean_1h",
+      "proton_density_mean_6h",
+      "proton_density_mean_24h",
+      "proton_density_std_6h",
+      "proton_density_std_24h",
+      "AE_INDEX_mean_1h",
+      "AE_INDEX_mean_6h",
+      "AE_INDEX_mean_24h",
+      "AE_INDEX_std_6h",
+      "AE_INDEX_std_24h",
+      "SYM_H_mean_1h",
+      "SYM_H_mean_6h",
+      "SYM_H_mean_24h",
+      "SYM_H_std_6h",
+      "SYM_H_std_24h",
+      "AE_INDEX_max_24h",
+      "SYM_H_min_24h",
+      "BZ_GSM_min_24h",
+      "flow_speed_max_24h",
+      "BZ_GSM_carr",
+      "flow_speed_carr",
+      "proton_density_carr",
+      "AE_INDEX_carr",
+      "SYM_H_carr",
+      "log_flux_carr",
+      "flux_now",
+      "flux_lag_1h",
+      "flux_lag_3h",
+      "flux_lag_6h",
+      "flux_lag_12h",
+      "flux_mean_1h",
+      "flux_mean_6h",
+      "flux_mean_24h",
+      "flux_std_6h",
+      "flux_std_24h",
+      "flux_trend_6h",
+      "flux_trend_15min",
+      "flux_std_15min",
+      "flux_trend_30min",
+      "flux_std_30min",
+      "BZ_GSM_lag792",
+      "BZ_GSM_lag654",
+      "flow_speed_lag576",
+      "proton_density_lag204",
+      "proton_density_lag66",
+      "AE_INDEX_lag858",
+      "AE_INDEX_lag720",
+      "SYM_H_lag720",
+      "SYM_H_lag582"
+    ],
+    "12h": [
+      "BZ_GSM",
+      "flow_speed",
+      "proton_density",
+      "AE_INDEX",
+      "SYM_H",
+      "ec_newell_proxy",
+      "vbs_rect",
+      "p_dyn",
+      "BZ_GSM_roc_1h",
+      "BZ_GSM_roc_3h",
+      "BZ_GSM_roc_6h",
+      "SYM_H_roc_1h",
+      "SYM_H_roc_3h",
+      "SYM_H_roc_6h",
+      "AE_INDEX_roc_1h",
+      "AE_INDEX_roc_3h",
+      "AE_INDEX_roc_6h",
+      "p_dyn_roc_1h",
+      "p_dyn_roc_3h",
+      "p_dyn_roc_6h",
+      "p_dyn_jump_1h",
+      "p_dyn_jump_3h",
+      "BZ_GSM_mean_1h",
+      "BZ_GSM_mean_6h",
+      "BZ_GSM_mean_24h",
+      "BZ_GSM_std_6h",
+      "BZ_GSM_std_24h",
+      "flow_speed_mean_1h",
+      "flow_speed_mean_6h",
+      "flow_speed_mean_24h",
+      "flow_speed_std_6h",
+      "flow_speed_std_24h",
+      "proton_density_mean_1h",
+      "proton_density_mean_6h",
+      "proton_density_mean_24h",
+      "proton_density_std_6h",
+      "proton_density_std_24h",
+      "AE_INDEX_mean_1h",
+      "AE_INDEX_mean_6h",
+      "AE_INDEX_mean_24h",
+      "AE_INDEX_std_6h",
+      "AE_INDEX_std_24h",
+      "SYM_H_mean_1h",
+      "SYM_H_mean_6h",
+      "SYM_H_mean_24h",
+      "SYM_H_std_6h",
+      "SYM_H_std_24h",
+      "AE_INDEX_max_24h",
+      "SYM_H_min_24h",
+      "BZ_GSM_min_24h",
+      "flow_speed_max_24h",
+      "BZ_GSM_carr",
+      "flow_speed_carr",
+      "proton_density_carr",
+      "AE_INDEX_carr",
+      "SYM_H_carr",
+      "log_flux_carr",
+      "flux_now",
+      "flux_lag_1h",
+      "flux_lag_3h",
+      "flux_lag_6h",
+      "flux_lag_12h",
+      "flux_mean_1h",
+      "flux_mean_6h",
+      "flux_mean_24h",
+      "flux_std_6h",
+      "flux_std_24h",
+      "flux_trend_6h",
+      "flux_trend_15min",
+      "flux_std_15min",
+      "flux_trend_30min",
+      "flux_std_30min",
+      "BZ_GSM_lag654",
+      "flow_speed_lag438",
+      "flow_speed_lag576",
+      "proton_density_lag66",
+      "AE_INDEX_lag720",
+      "SYM_H_lag582"
+    ]
+  },
+  "n_features_total": 83
+}

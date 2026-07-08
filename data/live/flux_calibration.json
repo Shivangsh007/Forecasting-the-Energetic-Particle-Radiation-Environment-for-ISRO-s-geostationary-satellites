@@ -1,0 +1,19 @@
+{
+  "form": "log10(ncei_flux + 1) = a*log10(swpc_flux + 1) + b",
+  "apply": "ncei_equiv = clip(10**(a*log10(swpc+1) + b) - 1, 0, None)",
+  "a": 1.0705684565170706,
+  "b": -0.1557692116416465,
+  "r2": 0.9904172173250195,
+  "n_fit": 928,
+  "fit_floor_pfu": 200.0,
+  "overlap_window": [
+    "2026-06-29 16:55:00",
+    "2026-07-05 23:55:00"
+  ],
+  "n_overlap": 1809,
+  "provisional": true,
+  "caveat": "Fit from a single overlap week/event; treat as PROVISIONAL and re-validate when a future storm gives a second independent overlap.",
+  "mechanism": "SWPC = near-real-time provisional; NCEI L2 = reprocessed science-quality final. Real-time-vs-final drift is expected.",
+  "fitted_at": "2026-07-06T16:55:16.928420+00:00",
+  "satellite": "GOES-19 (both products)"
+}

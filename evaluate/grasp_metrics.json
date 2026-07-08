@@ -1,0 +1,396 @@
+{
+  "2017_out_of_time": {
+    "30min": {
+      "n_days": 182,
+      "overall": {
+        "subset": "overall",
+        "n": 51938,
+        "xgb_rmse_log": 0.2645725241056144,
+        "persist_rmse_log": 0.1462235545072983,
+        "xgb_r_log": 0.9455320901548714,
+        "persist_r_log": 0.9790540076445295,
+        "xgb_rmse_raw": 110.00831307847258,
+        "persist_rmse_raw": 109.88463915230341,
+        "xgb_r_raw": 0.9786716002938074,
+        "xgb_bias_raw": -6.324517313849786,
+        "obs_mean_raw": 351.49844478994186,
+        "pred_mean_raw": 345.1739274760921
+      },
+      "storm": {
+        "subset": "storm(High)",
+        "n": 14344,
+        "xgb_rmse_log": 0.1684821686470707,
+        "persist_rmse_log": 0.15491587005025462,
+        "xgb_r_log": 0.945496543513879,
+        "persist_r_log": 0.9530129770607941,
+        "xgb_rmse_raw": 193.15404950097226,
+        "persist_rmse_raw": 192.724679646493,
+        "xgb_r_raw": 0.9652620712037754,
+        "xgb_bias_raw": -16.354127197133135,
+        "obs_mean_raw": 895.3732043851087,
+        "pred_mean_raw": 879.0190771879757
+      },
+      "quiet": {
+        "subset": "quiet",
+        "n": 37594,
+        "xgb_rmse_log": 0.29304578848762874,
+        "persist_rmse_log": 0.14276758170065632,
+        "xgb_r_log": 0.9111582068014012,
+        "persist_r_log": 0.9717592730029005,
+        "xgb_rmse_raw": 49.84197419807573,
+        "persist_rmse_raw": 50.09858415868297,
+        "xgb_r_raw": 0.9620515479845654,
+        "xgb_bias_raw": -2.4977171817591217,
+        "obs_mean_raw": 143.98289572272168,
+        "pred_mean_raw": 141.48517854096258
+      },
+      "hss_1000pfu": {
+        "xgb": {
+          "hits": 4758,
+          "false_alarms": 354,
+          "misses": 627,
+          "n_events_obs": 5385,
+          "POD": 0.8835654596100279,
+          "FAR": 0.06924882629107981,
+          "HSS": 0.8960470570198559
+        },
+        "persist": {
+          "hits": 4882,
+          "false_alarms": 504,
+          "misses": 503,
+          "n_events_obs": 5385,
+          "POD": 0.9065923862581244,
+          "FAR": 0.09357593761604159,
+          "HSS": 0.8956924709478027
+        }
+      }
+    },
+    "6h": {
+      "n_days": 182,
+      "overall": {
+        "subset": "overall",
+        "n": 51732,
+        "xgb_rmse_log": 0.4116910628787804,
+        "persist_rmse_log": 0.5443991945231275,
+        "xgb_r_log": 0.8479615646027541,
+        "persist_r_log": 0.7099385087479715,
+        "xgb_rmse_raw": 334.707794350848,
+        "persist_rmse_raw": 504.88272600787724,
+        "xgb_r_raw": 0.8165771706656743,
+        "xgb_bias_raw": 30.60036286774804,
+        "obs_mean_raw": 351.2006585730302,
+        "pred_mean_raw": 381.80102144077824
+      },
+      "storm": {
+        "subset": "storm(High)",
+        "n": 14333,
+        "xgb_rmse_log": 0.3727382639468101,
+        "persist_rmse_log": 0.5518419563175141,
+        "xgb_r_log": 0.7261740003681391,
+        "persist_r_log": 0.411324380212129,
+        "xgb_rmse_raw": 579.0065584453187,
+        "persist_rmse_raw": 888.1262212766126,
+        "xgb_r_raw": 0.7082709793325473,
+        "xgb_bias_raw": 110.785121260384,
+        "obs_mean_raw": 854.8932749529059,
+        "pred_mean_raw": 965.67839621329
+      },
+      "quiet": {
+        "subset": "quiet",
+        "n": 37399,
+        "xgb_rmse_log": 0.4256757849349839,
+        "persist_rmse_log": 0.5415196755044713,
+        "xgb_r_log": 0.7785250316325164,
+        "persist_r_log": 0.603886758122315,
+        "xgb_rmse_raw": 162.7314077597546,
+        "persist_rmse_raw": 224.2910659776893,
+        "xgb_r_raw": 0.7271719552299234,
+        "xgb_bias_raw": -0.13008826842272916,
+        "obs_mean_raw": 158.16270914730342,
+        "pred_mean_raw": 158.03262087888064
+      },
+      "hss_1000pfu": {
+        "xgb": {
+          "hits": 3646,
+          "false_alarms": 2078,
+          "misses": 1704,
+          "n_events_obs": 5350,
+          "POD": 0.6814953271028037,
+          "FAR": 0.36303284416491965,
+          "HSS": 0.6175964347970362
+        },
+        "persist": {
+          "hits": 2244,
+          "false_alarms": 3148,
+          "misses": 3106,
+          "n_events_obs": 5350,
+          "POD": 0.4194392523364486,
+          "FAR": 0.5838278931750742,
+          "HSS": 0.3503515096855019
+        }
+      }
+    },
+    "12h": {
+      "n_days": 181,
+      "overall": {
+        "subset": "overall",
+        "n": 51588,
+        "xgb_rmse_log": 0.4319365913080699,
+        "persist_rmse_log": 0.7404291670666453,
+        "xgb_r_log": 0.8370339434983908,
+        "persist_r_log": 0.46376498015282225,
+        "xgb_rmse_raw": 432.29302688984836,
+        "persist_rmse_raw": 652.0119496830446,
+        "xgb_r_raw": 0.7800317144436297,
+        "xgb_bias_raw": 79.70503559761237,
+        "obs_mean_raw": 349.71969162402115,
+        "pred_mean_raw": 429.42472722163336
+      },
+      "storm": {
+        "subset": "storm(High)",
+        "n": 14333,
+        "xgb_rmse_log": 0.40555900406430473,
+        "persist_rmse_log": 0.7478787066134946,
+        "xgb_r_log": 0.6972256747197713,
+        "persist_r_log": -0.08544310529496177,
+        "xgb_rmse_raw": 732.4297308719016,
+        "persist_rmse_raw": 1124.2852328532197,
+        "xgb_r_raw": 0.7087057614261877,
+        "xgb_bias_raw": 270.069290168364,
+        "obs_mean_raw": 806.8192888648573,
+        "pred_mean_raw": 1076.8885790332213
+      },
+      "quiet": {
+        "subset": "quiet",
+        "n": 37255,
+        "xgb_rmse_log": 0.44166533030458427,
+        "persist_rmse_log": 0.7375430864269392,
+        "xgb_r_log": 0.7758027345439167,
+        "persist_r_log": 0.28311734356819424,
+        "xgb_rmse_raw": 228.87978814553426,
+        "persist_rmse_raw": 319.95794249200475,
+        "xgb_r_raw": 0.6390417320220506,
+        "xgb_bias_raw": 6.466789435685571,
+        "obs_mean_raw": 173.86118867802975,
+        "pred_mean_raw": 180.32797811371537
+      },
+      "hss_1000pfu": {
+        "xgb": {
+          "hits": 3474,
+          "false_alarms": 2810,
+          "misses": 1807,
+          "n_events_obs": 5281,
+          "POD": 0.6578299564476425,
+          "FAR": 0.4471674092934437,
+          "HSS": 0.5508068544161924
+        },
+        "persist": {
+          "hits": 987,
+          "false_alarms": 4419,
+          "misses": 4294,
+          "n_events_obs": 5281,
+          "POD": 0.1868964211323613,
+          "FAR": 0.8174250832408435,
+          "HSS": 0.09051897534533737
+        }
+      }
+    }
+  },
+  "2018_in_train": {
+    "30min": {
+      "n_days": 243,
+      "overall": {
+        "subset": "overall",
+        "n": 69725,
+        "xgb_rmse_log": 0.34049672471543085,
+        "persist_rmse_log": 0.12088978863345017,
+        "xgb_r_log": 0.9328530718222565,
+        "persist_r_log": 0.9860855161056782,
+        "xgb_rmse_raw": 80.8456178584391,
+        "persist_rmse_raw": 83.5008619012016,
+        "xgb_r_raw": 0.9822170635626297,
+        "xgb_bias_raw": 2.2999080344114144,
+        "obs_mean_raw": 215.34077475080676,
+        "pred_mean_raw": 217.6406827852182
+      },
+      "storm": {
+        "subset": "storm(High)",
+        "n": 10864,
+        "xgb_rmse_log": 0.13623808200115897,
+        "persist_rmse_log": 0.1364795448393799,
+        "xgb_r_log": 0.9524358531284708,
+        "persist_r_log": 0.9531063428896696,
+        "xgb_rmse_raw": 180.2199744607376,
+        "persist_rmse_raw": 187.3502078603204,
+        "xgb_r_raw": 0.9698216480353767,
+        "xgb_bias_raw": -4.475271003438683,
+        "obs_mean_raw": 877.1242161450664,
+        "pred_mean_raw": 872.6489451416276
+      },
+      "quiet": {
+        "subset": "quiet",
+        "n": 58861,
+        "xgb_rmse_log": 0.36593848106757476,
+        "persist_rmse_log": 0.11778702993343901,
+        "xgb_r_log": 0.8923718188826626,
+        "persist_r_log": 0.980525102794938,
+        "xgb_rmse_raw": 41.80504418159645,
+        "persist_rmse_raw": 42.20013154878579,
+        "xgb_r_raw": 0.9622274389639658,
+        "xgb_bias_raw": 3.550405733519542,
+        "obs_mean_raw": 93.1951213078269,
+        "pred_mean_raw": 96.74552704134645
+      },
+      "hss_1000pfu": {
+        "xgb": {
+          "hits": 3400,
+          "false_alarms": 282,
+          "misses": 400,
+          "n_events_obs": 3800,
+          "POD": 0.8947368421052632,
+          "FAR": 0.07658881042911461,
+          "HSS": 0.9036813404111916
+        },
+        "persist": {
+          "hits": 3434,
+          "false_alarms": 368,
+          "misses": 366,
+          "n_events_obs": 3800,
+          "POD": 0.9036842105263158,
+          "FAR": 0.0967911625460284,
+          "HSS": 0.8978794453005238
+        }
+      }
+    },
+    "6h": {
+      "n_days": 243,
+      "overall": {
+        "subset": "overall",
+        "n": 69559,
+        "xgb_rmse_log": 0.46528190516609785,
+        "persist_rmse_log": 0.49813790440032485,
+        "xgb_r_log": 0.8410600980882968,
+        "persist_r_log": 0.7640004982848481,
+        "xgb_rmse_raw": 252.66800808582116,
+        "persist_rmse_raw": 387.6879665588827,
+        "xgb_r_raw": 0.8471239139662469,
+        "xgb_bias_raw": 24.740166325831584,
+        "obs_mean_raw": 215.96193788869883,
+        "pred_mean_raw": 240.70210421453038
+      },
+      "storm": {
+        "subset": "storm(High)",
+        "n": 10797,
+        "xgb_rmse_log": 0.36394969680549005,
+        "persist_rmse_log": 0.5438991355883736,
+        "xgb_r_log": 0.6432809480102538,
+        "persist_r_log": 0.24627769523446755,
+        "xgb_rmse_raw": 586.9759061027618,
+        "persist_rmse_raw": 912.8261786750699,
+        "xgb_r_raw": 0.7213686362166984,
+        "xgb_bias_raw": 142.22332436568007,
+        "obs_mean_raw": 868.7013890617765,
+        "pred_mean_raw": 1010.9247134274566
+      },
+      "quiet": {
+        "subset": "quiet",
+        "n": 58762,
+        "xgb_rmse_log": 0.4815876164114989,
+        "persist_rmse_log": 0.489264439500341,
+        "xgb_r_log": 0.7550220418635031,
+        "persist_r_log": 0.666136676801846,
+        "xgb_rmse_raw": 110.74766053520906,
+        "persist_rmse_raw": 157.53085897928247,
+        "xgb_r_raw": 0.7428638152587497,
+        "xgb_bias_raw": 3.153670676326048,
+        "obs_mean_raw": 96.02681222388618,
+        "pred_mean_raw": 99.18048290021224
+      },
+      "hss_1000pfu": {
+        "xgb": {
+          "hits": 2849,
+          "false_alarms": 1505,
+          "misses": 970,
+          "n_events_obs": 3819,
+          "POD": 0.7460068080649385,
+          "FAR": 0.34565916398713825,
+          "HSS": 0.6783585770424917
+        },
+        "persist": {
+          "hits": 1452,
+          "false_alarms": 2360,
+          "misses": 2367,
+          "n_events_obs": 3819,
+          "POD": 0.38020424194815394,
+          "FAR": 0.6190975865687304,
+          "HSS": 0.3446027173908309
+        }
+      }
+    },
+    "12h": {
+      "n_days": 243,
+      "overall": {
+        "subset": "overall",
+        "n": 69490,
+        "xgb_rmse_log": 0.46094128783364213,
+        "persist_rmse_log": 0.6781777809957311,
+        "xgb_r_log": 0.8415127116580815,
+        "persist_r_log": 0.5626507448259848,
+        "xgb_rmse_raw": 310.1174450863857,
+        "persist_rmse_raw": 504.5945425459741,
+        "xgb_r_raw": 0.82712730201494,
+        "xgb_bias_raw": 46.51135891443619,
+        "obs_mean_raw": 216.68944974672613,
+        "pred_mean_raw": 263.20080866116234
+      },
+      "storm": {
+        "subset": "storm(High)",
+        "n": 10711,
+        "xgb_rmse_log": 0.371469988117102,
+        "persist_rmse_log": 0.7101892055689029,
+        "xgb_r_log": 0.6908212969702798,
+        "persist_r_log": -0.2965616545109555,
+        "xgb_rmse_raw": 711.8808247670325,
+        "persist_rmse_raw": 1158.7660562183387,
+        "xgb_r_raw": 0.7322502563803378,
+        "xgb_bias_raw": 309.5111230418919,
+        "obs_mean_raw": 824.141407982448,
+        "pred_mean_raw": 1133.6525310243399
+      },
+      "quiet": {
+        "subset": "quiet",
+        "n": 58779,
+        "xgb_rmse_log": 0.4754349831478246,
+        "persist_rmse_log": 0.6721803100200359,
+        "xgb_r_log": 0.7606045769424891,
+        "persist_r_log": 0.3822926570304397,
+        "xgb_rmse_raw": 146.1198074441725,
+        "persist_rmse_raw": 237.34463829847306,
+        "xgb_r_raw": 0.714728184312673,
+        "xgb_bias_raw": -1.4137584500847815,
+        "obs_mean_raw": 105.99655050273056,
+        "pred_mean_raw": 104.5827920526458
+      },
+      "hss_1000pfu": {
+        "xgb": {
+          "hits": 2996,
+          "false_alarms": 2023,
+          "misses": 839,
+          "n_events_obs": 3835,
+          "POD": 0.7812255541069101,
+          "FAR": 0.403068340306834,
+          "HSS": 0.6551817571663429
+        },
+        "persist": {
+          "hits": 475,
+          "false_alarms": 3332,
+          "misses": 3360,
+          "n_events_obs": 3835,
+          "POD": 0.12385919165580182,
+          "FAR": 0.8752298397688468,
+          "HSS": 0.07336122665800844
+        }
+      }
+    }
+  }
+}

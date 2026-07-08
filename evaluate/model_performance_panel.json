@@ -1,0 +1,66 @@
+{
+  "per_horizon": {
+    "30min": {
+      "mae_pfu": 194.1,
+      "rmse_pfu": 532.4,
+      "r2_raw": 0.945,
+      "pearson_raw": 0.973,
+      "skill_vs_persistence_pct": 15.2,
+      "pod": 0.906,
+      "far": 0.059,
+      "hss": 0.898,
+      "hss_persist": 0.896,
+      "hss_gain": 0.002,
+      "n_test": 109495,
+      "note": "No significant improvement over persistence at this horizon: operational HSS 0.898 ties persistence 0.896 (the +15.2% is log-scale RMSE only, not an alerting gain)."
+    },
+    "6h": {
+      "mae_pfu": 528.0,
+      "rmse_pfu": 1347.2,
+      "r2_raw": 0.651,
+      "pearson_raw": 0.818,
+      "skill_vs_persistence_pct": 23.1,
+      "pod": 0.746,
+      "far": 0.186,
+      "hss": 0.71,
+      "hss_persist": 0.619,
+      "hss_gain": 0.091,
+      "n_test": 109201,
+      "note": null
+    },
+    "12h": {
+      "mae_pfu": 574.7,
+      "rmse_pfu": 1518.1,
+      "r2_raw": 0.558,
+      "pearson_raw": 0.751,
+      "skill_vs_persistence_pct": 29.7,
+      "pod": 0.717,
+      "far": 0.227,
+      "hss": 0.665,
+      "hss_persist": 0.491,
+      "hss_gain": 0.174,
+      "n_test": 109016,
+      "note": null
+    }
+  },
+  "context": {
+    "model_revision": "post-Stage-A R7-R11 (83 features: +short-flux-trend, +rate-of-change/pressure-jump; +12h storm-weighted; +30min/+6h depth-tuned)",
+    "last_trained_utc": "2026-07-07T17:12:21.580961+00:00",
+    "generated_utc": "2026-07-07T17:17:23.189548+00:00",
+    "grasp_cross_longitude_2017_out_of_time": {
+      "description": "Independent ISRO GSAT-19/GRASP data, Indian longitude, Jul-Dec 2017 - OUTSIDE the training time window.",
+      "6h": {
+        "pearson_r_log": 0.848,
+        "hss_1000pfu": 0.618,
+        "hss_persist": 0.35
+      },
+      "12h": {
+        "pearson_r_log": 0.837,
+        "hss_1000pfu": 0.551,
+        "hss_persist": 0.091
+      }
+    }
+  },
+  "threshold_pfu": 1000,
+  "scale_note": "MAE/RMSE in pfu (raw); R2/Pearson raw scale."
+}
