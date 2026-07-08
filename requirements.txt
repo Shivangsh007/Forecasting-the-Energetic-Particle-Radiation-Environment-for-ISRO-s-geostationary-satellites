@@ -1,12 +1,16 @@
-# SolarSentinel — verified against actual imports across all shipped .py files
-# (audit 2026-07-06). Versions = the environment everything was built/tested on.
+# SolarSentinel — RUNTIME dependencies for the deployed Streamlit app (Cloud).
+# These are the only packages imported by dashboard/app.py + its import chain
+# (snapshot/charts/hazard, build_features, realtime_daemon).
 numpy>=2.2
 pandas>=2.3
-pyarrow>=24.0          # parquet engine (implicit dependency of pandas.to_parquet)
-xgboost>=3.2
-matplotlib>=3.10       # feature-importance / lag-correlation plots
+pyarrow>=24.0          # parquet engine (features slice + model predictions)
+xgboost>=3.2           # the 3 per-horizon regressors
 streamlit>=1.58        # dashboard/app.py
 plotly>=6.8            # dashboard/charts.py
-xarray>=2025.6         # NCEI GOES NetCDF reading (get_goes.py, fit_flux_calibration.py)
-netCDF4>=1.7           # xarray engine for .nc files (implicit dependency)
-hapiclient>=0.2.9      # OMNI pulls from CDAWeb (get_omni.py)
+#
+# OFFLINE-ONLY (data prep / retraining / plots — NOT needed to run the deployed app;
+# install locally if you re-run those scripts):
+#   matplotlib>=3.10    # feature-importance / lag-correlation plots (evaluate/, features/)
+#   xarray>=2025.6      # NCEI GOES NetCDF (get_goes.py, fit_flux_calibration.py)
+#   netCDF4>=1.7        # xarray engine for .nc
+#   hapiclient>=0.2.9   # OMNI pulls from CDAWeb (get_omni.py)
