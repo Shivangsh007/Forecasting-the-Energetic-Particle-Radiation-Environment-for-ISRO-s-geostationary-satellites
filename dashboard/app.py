@@ -39,40 +39,98 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Roboto+Mono:wght@400;500&display=swap');
 :root { --bg:#04070e; --panel:#070b16; --edge:rgba(200,212,240,0.20);
-        --ink:#dbe3f4; --muted:#7c8aa8; --num:#eef2fb;
+        --edge-hi:rgba(200,212,240,0.45);
+        --ink:#dbe3f4; --muted:#93a2c2; --num:#eef2fb;
         --mono:'Roboto Mono',ui-monospace,'DejaVu Sans Mono',monospace;
         --cond:'Barlow Condensed','Arial Narrow',sans-serif; }
 .stApp { background:var(--bg); }
-.block-container { padding:0.55rem 1rem 1rem 1rem; max-width:100%; }
+/* fixed Streamlit chrome bar blends into the app bg; content padded below it */
+header[data-testid="stHeader"] { background:var(--bg); }
+[data-testid="stMainBlockContainer"] { padding:3.2rem 1.2rem 1rem 1.2rem; max-width:100%; }
 section[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { display:none!important; }
-.stButton>button, .stDownloadButton>button { border-radius:0!important; border:1px solid var(--edge)!important;
-  background:var(--panel)!important; color:var(--ink)!important; font-family:var(--mono)!important;
-  padding:2px 10px!important; min-height:0!important; line-height:1.35!important; }
-div[data-testid="stHorizontalBlock"] { align-items:center; }
-[data-testid="stRadio"] div[role="radiogroup"] { gap:0.6rem; }
-[data-testid="stRadio"] label p { font-family:var(--mono); font-size:0.78rem; color:var(--ink); }
+/* buttons (st.button + st.download_button): thin border, sharp, mono uppercase */
+[data-testid="stButton"] button, [data-testid="stDownloadButton"] button {
+  border-radius:0!important; border:1px solid var(--edge)!important;
+  background:var(--panel)!important; color:var(--ink)!important;
+  font-family:var(--mono)!important; font-size:0.72rem!important;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:0 12px!important; height:2.1rem!important; min-height:0!important;
+  display:inline-flex!important; align-items:center!important; justify-content:center!important;
+  box-shadow:none!important; line-height:1!important; white-space:nowrap!important; }
+[data-testid="stButton"] button:hover, [data-testid="stDownloadButton"] button:hover {
+  border-color:var(--edge-hi)!important; background:#0a101f!important; color:var(--num)!important; }
+[data-testid="stButton"] button:focus, [data-testid="stDownloadButton"] button:focus {
+  box-shadow:none!important; outline:none!important; border-color:var(--edge-hi)!important; }
+/* rows: content rows top-aligned; the control strip (has the radio) centers */
+div[data-testid="stHorizontalBlock"] { align-items:flex-start; flex-wrap:wrap; row-gap:0.45rem; }
+div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) { align-items:center; }
+[data-testid="stRadio"] div[role="radiogroup"] { gap:0.6rem; flex-wrap:nowrap; }
+[data-testid="stRadio"] label p, [data-testid="stCheckbox"] label p {
+  font-family:var(--mono); font-size:0.8rem; color:var(--ink); white-space:nowrap; }
+/* Streamlit gives every stMarkdownContainer margin-bottom:-16px (offsets a
+   trailing <p> margin that raw-HTML markdown doesn't have). Harmless between
+   siblings, but on the LAST element of a column the text bleeds 16px past the
+   column bottom -- overlapping the next stacked column on narrow screens. */
+div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:last-child
+  div[data-testid="stMarkdownContainer"] { margin-bottom:0!important; }
+/* BaseWeb inputs (selectbox/date/time): sharp corners, panel surface, mono */
+div[data-baseweb="select"] > div, div[data-baseweb="input"], div[data-baseweb="input"] > div {
+  border-radius:0!important; background:var(--panel)!important; border-color:var(--edge)!important; }
+div[data-baseweb="select"] div, div[data-baseweb="input"] input {
+  font-family:var(--mono)!important; font-size:0.8rem!important; }
+div[data-baseweb="popover"] [data-baseweb="menu"] { border-radius:0!important;
+  background:var(--panel)!important; }
 h1,h2,h3,h4,h5 { font-family:var(--cond)!important; letter-spacing:0.06em; }
 .panel { background:var(--panel); border:1px solid var(--edge); border-radius:0;
          padding:8px 11px; margin-bottom:7px; }
-.lbl { font-family:var(--cond); text-transform:uppercase; letter-spacing:0.11em;
-       font-size:0.62rem; color:var(--muted); }
+.lbl { font-family:var(--cond); text-transform:uppercase; letter-spacing:0.1em;
+       font-size:0.7rem; font-weight:500; color:var(--muted); }
 .val { font-family:var(--mono); font-size:1.45rem; font-weight:500; color:var(--num);
        line-height:1.12; }
-.unit { font-size:0.62rem; color:var(--muted); }
-.banner { border-radius:0; padding:11px 15px; margin-bottom:8px; border-left-width:4px;
-          border-left-style:solid; }
+.unit { font-size:0.68rem; color:var(--muted); }
+/* app header + HUD strips: flex that wraps instead of crushing on narrow screens */
+.app-header { display:flex; align-items:baseline; gap:4px 12px; flex-wrap:wrap;
+  border-bottom:1px solid var(--edge); padding-bottom:5px; margin-bottom:7px; }
+.app-title { font-family:var(--cond); font-size:1.55rem; letter-spacing:0.2em;
+  color:var(--num); font-weight:600; white-space:nowrap; }
+.hud-strip { display:flex; align-items:center; gap:6px 12px; flex-wrap:wrap;
+  border:1px solid var(--edge); background:var(--panel); padding:7px 13px; margin-bottom:8px; }
+.hud-strip .msg { flex:1 1 240px; min-width:0; color:#c4cde0; font-size:0.83rem; }
 /* Streamlit bordered containers -> sharp panels */
 [data-testid="stVerticalBlockBorderWrapper"] { border:1px solid var(--edge)!important;
     border-radius:0!important; background:var(--panel); }
 [data-testid="stVerticalBlockBorderWrapper"] > div { padding:6px 8px; }
-/* model-performance table */
+/* telemetry cards: single column in the side rail, auto-grid when stacked full-width */
+.telem-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:7px; margin-bottom:7px; }
+.telem-grid .panel { margin-bottom:0; }
+/* model-performance table (scrolls inside its wrapper, never the page) */
+.mp-wrap { overflow-x:auto; }
 table.mp { width:100%; border-collapse:collapse; font-family:var(--mono); }
 table.mp th, table.mp td { border:1px solid var(--edge); padding:4px 9px; text-align:right;
-    font-size:0.78rem; color:var(--num); }
+    font-size:0.8rem; color:var(--num); white-space:nowrap; }
 table.mp th { font-family:var(--cond); text-transform:uppercase; letter-spacing:0.08em;
-    color:var(--muted); font-weight:600; font-size:0.7rem; }
+    color:var(--muted); font-weight:600; font-size:0.72rem; }
 table.mp td.rl { text-align:left; font-family:var(--cond); text-transform:uppercase;
-    letter-spacing:0.05em; color:var(--muted); font-size:0.72rem; }
+    letter-spacing:0.05em; color:var(--muted); font-size:0.74rem; }
+/* responsive: stack content columns below laptop width; control strip keeps its row */
+@media (max-width: 900px) {
+  /* control strip: columns shrink to natural width and wrap as a row of chips */
+  div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) > div[data-testid="stColumn"] {
+    flex:0 1 auto!important; width:auto!important; min-width:0!important; }
+}
+@media (max-width: 1200px) {
+  div[data-testid="stHorizontalBlock"]:not(:has(div[data-testid="stRadio"])) > div[data-testid="stColumn"] {
+    flex:1 1 100%!important; width:100%!important; min-width:100%!important; }
+  div[data-testid="stColumn"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+    flex:1 1 45%!important; width:auto!important; min-width:150px!important; }
+}
+@media (max-width: 640px) {
+  div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+  div[data-testid="stColumn"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+    flex:1 1 100%!important; width:100%!important; min-width:100%!important; }
+  [data-testid="stMainBlockContainer"] { padding:3.2rem 0.7rem 1rem 0.7rem; }
+}
 </style>""", unsafe_allow_html=True)
 
 
@@ -136,7 +194,7 @@ def telem_html(payload):
             dtxt = f'<span class="lbl">{arrow} {abs(d):.1f} {tm["unit"]}/h · 1h</span>'
         out += (f'<div class="panel"><div class="lbl">{lbl}</div>'
                 f'<div class="val">{vtxt} <span class="unit">{tm["unit"]}</span></div>{dtxt}</div>')
-    return out
+    return f'<div class="telem-grid">{out}</div>'
 
 
 def model_perf_html(pd_):
@@ -156,21 +214,20 @@ def model_perf_html(pd_):
     for name, fn in rows:
         tds = "".join(f"<td>{fn(ph[h])}</td>" for h in hs)
         body += f"<tr><td class='rl'>{name}</td>{tds}</tr>"
-    return f'<table class="mp"><tr><th style="text-align:left">METRIC</th>{th}</tr>{body}</table>'
+    return (f'<div class="mp-wrap"><table class="mp"><tr><th style="text-align:left">METRIC</th>'
+            f'{th}</tr>{body}</table></div>')
 
 
 # -------------------------------------------------------- header + controls --- #
 _ctx()
 _live_daemon()          # start the shared background poll loop once per app process
-st.markdown("""<div style="display:flex;align-items:baseline;gap:12px;
-   border-bottom:1px solid var(--edge);padding-bottom:5px;margin-bottom:7px">
-   <span style="font-family:var(--cond);font-size:1.5rem;letter-spacing:0.2em;
-   color:var(--num);font-weight:600">SOLARSENTINEL</span>
-   <span class="lbl">Energetic particle radiation forecast · GEO &gt;2 MeV electrons</span>
+st.markdown("""<div class="app-header">
+   <span class="app-title">SOLARSENTINEL</span>
+   <span class="lbl" style="font-size:0.74rem">Energetic particle radiation forecast · GEO &gt;2 MeV electrons</span>
    </div>""", unsafe_allow_html=True)
 
 # thin inline control strip (no walled-off sidebar block)
-cc = st.columns([1.25, 2.4, 0.7, 0.42, 0.8], gap="small")
+cc = st.columns([1.25, 2.4, 0.7, 0.42, 0.8], gap="small", vertical_alignment="center")
 mode = cc[0].radio("src", ["Live", "Replay"], horizontal=True, label_visibility="collapsed")
 day = tmv = None
 if mode == "Replay":
@@ -196,12 +253,11 @@ status = payload.get("status", "ok")
 
 # --- error guard: a daemon 'error' payload has no telemetry/satellites --- #
 if status == "error" or "satellites" not in payload:
-    st.markdown(f"""<div style="border:1px solid #ef4444;border-left:3px solid #ef4444;
-      background:var(--panel);padding:8px 13px"><span style="font-family:var(--cond);
-      text-transform:uppercase;letter-spacing:0.1em;color:#ef4444;font-weight:600">
-      [■] Live feed unavailable</span><span style="color:#c4cde0;margin-left:10px;font-size:0.85rem">
-      {payload.get('error','No current data.')} · last check {payload.get('checked_at','?')}</span>
-      </div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="hud-strip" style="border-color:#ef4444;border-left:3px solid #ef4444">
+      <span style="font-family:var(--cond);text-transform:uppercase;letter-spacing:0.1em;
+      color:#ef4444;font-weight:600;white-space:nowrap">[■] Live feed unavailable</span>
+      <span class="msg" style="font-size:0.85rem">{payload.get('error','No current data.')}
+      · last check {payload.get('checked_at','?')}</span></div>""", unsafe_allow_html=True)
     st.stop()
 
 hz = payload["hazard"]
@@ -224,20 +280,18 @@ if status in ("stale", "degraded"):
         down = [f for f, ok in payload.get("feeds_ok", {}).items() if not ok]
         smsg = (f"Driver feed(s) down: {', '.join(down) or 'n/a'}; forecast on reduced inputs, "
                 f"longer-horizon skill lower.")
-    st.markdown(f"""<div style="border:1px solid var(--edge);border-left:2px solid {scol};
-      background:var(--panel);padding:5px 13px;margin-bottom:6px">
+    st.markdown(f"""<div class="hud-strip" style="border-left:2px solid {scol};margin-bottom:6px">
       <span style="font-family:var(--cond);text-transform:uppercase;letter-spacing:0.11em;
-      color:{scol};font-weight:600;font-size:0.76rem">⚠ {stitle}</span>
-      <span style="color:#c4cde0;font-size:0.82rem;margin-left:8px">{smsg}</span></div>""",
+      color:{scol};font-weight:600;font-size:0.78rem;white-space:nowrap">⚠ {stitle}</span>
+      <span class="msg" style="font-size:0.82rem">{smsg}</span></div>""",
                 unsafe_allow_html=True)
 
 # hazard status — thin HUD strip (bracketed indicator + mono, restrained accent)
-st.markdown(f"""<div style="display:flex;align-items:center;gap:12px;border:1px solid var(--edge);
-  border-left:2px solid {hz['color']};background:var(--panel);padding:7px 13px;margin-bottom:8px">
+st.markdown(f"""<div class="hud-strip" style="border-left:2px solid {hz['color']}">
   <span style="color:{hz['color']};font-family:var(--mono);font-size:0.72rem">[■]</span>
   <span style="font-family:var(--cond);text-transform:uppercase;letter-spacing:0.14em;
    color:{hz['color']};font-weight:600;font-size:0.83rem;white-space:nowrap">{hz['level']} · {hz['title']}</span>
-  <span style="color:#c4cde0;font-size:0.83rem;flex:1;min-width:0">{hz['message']}</span>
+  <span class="msg">{hz['message']}</span>
   <span class="lbl" style="white-space:nowrap">VALID {fmt_time(payload['valid_time'], tz_ist)} · {payload['source'].upper()}</span>
   </div>""", unsafe_allow_html=True)
 
@@ -304,12 +358,12 @@ if PANEL_JSON.exists():
           <div class="lbl">Cross-longitude validation · strongest differentiator</div>
           <div style="color:#c9d4f0;font-size:0.76rem;margin:3px 0 5px 0">Independent ISRO
           GSAT-19/GRASP (Indian longitude), <b>2017 out-of-time</b> — never in training:</div>
-          <table class="mp" style="font-size:0.74rem"><tr><th style="text-align:left">HORIZON</th>
+          <div class="mp-wrap"><table class="mp" style="font-size:0.74rem"><tr><th style="text-align:left">HORIZON</th>
           <th>PEARSON r</th><th>HSS</th><th>PERSIST</th></tr>
           <tr><td class="rl">+6 H</td><td>{g['6h']['pearson_r_log']:.2f}</td>
           <td>{g['6h']['hss_1000pfu']:.2f}</td><td>{g['6h']['hss_persist']:.2f}</td></tr>
           <tr><td class="rl">+12 H</td><td>{g['12h']['pearson_r_log']:.2f}</td>
-          <td>{g['12h']['hss_1000pfu']:.2f}</td><td>{g['12h']['hss_persist']:.2f}</td></tr></table>
+          <td>{g['12h']['hss_1000pfu']:.2f}</td><td>{g['12h']['hss_persist']:.2f}</td></tr></table></div>
           <div class="lbl" style="margin-top:6px">{ctx['model_revision']} · trained
           {ctx['last_trained_utc'][:10]} · test n={n['30min']['n_test']:,}/{n['6h']['n_test']:,}/{n['12h']['n_test']:,}</div>
           </div>""", unsafe_allow_html=True)

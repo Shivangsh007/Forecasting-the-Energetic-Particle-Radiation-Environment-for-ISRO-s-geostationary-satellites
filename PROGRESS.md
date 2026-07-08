@@ -759,3 +759,44 @@ Prepared for Streamlit Community Cloud (push + deploy are the user's outward-fac
 - **Remaining (user):** commit + push to the public GitHub repo, then deploy at share.streamlit.io
   pointing at `dashboard/app.py`; free tier sleeps after inactivity (wake button restores it, and
   the daemon thread + live data resume on wake).
+
+## Stage C-3 — deploy fix + responsive/polish pass (2026-07-08)
+
+**Deploy crash fixed (real Streamlit Cloud traceback):** `xgb.XGBRegressor()` in
+`snapshot.load_context` raised `ImportError: sklearn needs to be installed` on Cloud — the
+xgboost sklearn wrapper requires scikit-learn as a separate package, present locally only
+transitively. Added `scikit-learn>=1.5` to `requirements.txt` (commit a9cb855). Lesson noted:
+the cloud-mode render test runs in the local env and cannot catch missing-package gaps.
+
+**UI responsive/bugfix pass (visual only — data, hazard logic, model calls unchanged),
+verified with real headless-Edge screenshots at 1920/1366/1024/768/430 px, Live AND Replay:**
+- **Responsive:** content columns (hero 3-col, model-perf 2-col) stack full-width ≤1200 px via
+  media queries on `stHorizontalBlock`/`stColumn` (`:has(stRadio)` exempts the control strip,
+  which collapses to natural-width wrapping chips ≤900 px); telemetry cards auto-grid
+  (`repeat(auto-fit,minmax(190px,1fr))`); metric tables scroll inside `.mp-wrap`
+  (never the page); HUD strips are `flex-wrap` with a `flex:1 1 240px` message.
+- **Root-caused overlap bug:** Streamlit 1.58 puts `margin-bottom:-16px` on every
+  `stMarkdownContainer` (compensates a trailing `<p>` margin raw-HTML markdown doesn't have) —
+  the LAST label in a column bled 16 px onto the next stacked column on narrow screens.
+  Fixed by zeroing that margin only on `:last-child` element containers (internal spacing
+  untouched). Diagnosed via live computed-style probes, not guesswork.
+- **Header/alignment:** title no longer hidden under Streamlit's fixed chrome (header bg
+  matched + 3.2 rem top padding); control strip vertically centered
+  (`vertical_alignment="center"` + flex); ↻ button was unstyled because 1.58 renamed button
+  DOM (`.stButton>button` no longer matches) → all buttons now targeted via
+  `[data-testid=stButton]/[stDownloadButton] button`, uniform 2.1 rem height.
+- **Report button:** HUD restyle — 1 px border, sharp corners, mono uppercase, no shadow,
+  hover brightens border only.
+- **Stray red removed via `.streamlit/config.toml`** (`primaryColor #8fa3c8`): default
+  Streamlit red radio dot / IST toggle / focus rings are now cool gray-blue. Functional red
+  untouched — replay of 2025-10-06 re-screenshotted: CRITICAL strip, red markers, red map dot
+  all render exactly as designed. (Stale-feed strip red kept: it is a data-integrity alarm.)
+- **Fonts:** `--muted` contrast raised `#7c8aa8→#93a2c2` (~4:1→~5.5:1 on bg), `.lbl`
+  0.62→0.7 rem, table cells 0.78→0.8 rem, widget labels 0.8 rem mono, `white-space:nowrap` on
+  radio labels/buttons (were wrapping mid-word at 768 px).
+- **General polish:** BaseWeb selectbox/date/time inputs sharp-cornered on panel surface in
+  mono; plotly modebar moved vertical-right + muted (was overlapping the legend); forecast
+  legend anchored to grow upward into a raised top margin (was spilling over the plot on
+  narrow widths); removed dead `.banner` CSS.
+- **Regression:** cloud-mode AppTest re-run post-changes — Live + Replay render, no exception,
+  perf panel present.

@@ -115,9 +115,15 @@ def forecast_figure(payload):
                      tickfont=dict(family=MONO, size=10, color=MUTED))
     fig.update_layout(
         paper_bgcolor=BG, plot_bgcolor=BG, font=dict(color=INK, family=MONO),
-        height=520, margin=dict(l=8, r=8, t=26, b=8),
-        legend=dict(orientation="h", y=1.10, x=0, bgcolor="rgba(0,0,0,0)",
+        height=520, margin=dict(l=8, r=8, t=58, b=8),
+        # legend anchored to grow upward into the top margin (wraps on narrow
+        # widths without spilling over the plot); modebar moved to the right
+        # edge, vertical, so it never collides with the legend row
+        legend=dict(orientation="h", y=1.0, yanchor="bottom", x=0,
+                    bgcolor="rgba(0,0,0,0)",
                     font=dict(size=10, color=MUTED, family=MONO)),
+        modebar=dict(orientation="v", bgcolor="rgba(0,0,0,0)",
+                     color=MUTED, activecolor=INK),
         hoverlabel=dict(bgcolor="#0a0f1c", font=dict(family=MONO, color=INK)))
     return fig
 

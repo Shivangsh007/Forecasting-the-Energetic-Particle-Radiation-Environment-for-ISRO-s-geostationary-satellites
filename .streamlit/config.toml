@@ -1,0 +1,12 @@
+# SolarSentinel theme — grayscale HUD; color is reserved for hazard status only.
+# primaryColor drives Streamlit widget accents (radio dot, toggle-on, focus rings):
+# cool gray-blue, NOT red — the default red read as a false alert state.
+[theme]
+base = "dark"
+primaryColor = "#8fa3c8"
+backgroundColor = "#04070e"
+secondaryBackgroundColor = "#0a0f1c"
+textColor = "#dbe3f4"
+
+[browser]
+gatherUsageStats = false
