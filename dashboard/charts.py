@@ -12,6 +12,7 @@ Forecast chart honesty rules (unchanged, carried from Section 6):
   - The persistence no-skill baseline is drawn explicitly for comparison.
 """
 
+import math
 from pathlib import Path
 import sys
 
@@ -91,7 +92,10 @@ def forecast_figure(payload):
                 name="Observed (verification)", showlegend=(h == "30min"), hoverinfo="y"))
         xs.append(tt); ys.append(f["flux"])
         if f["skill"] == "none":
-            fig.add_annotation(x=tt, y=f["flux"], text="= persistence", showarrow=True,
+            # plotly.js reads annotation y on a log axis as a log10 coordinate;
+            # raw pfu here made autorange span ~10^flux decades (axis to 10^250+).
+            fig.add_annotation(x=tt, y=math.log10(max(f["flux"], 0.1)),
+                               text="= persistence", showarrow=True,
                                arrowcolor=MUTED, ax=0, ay=-32,
                                font=dict(color=MUTED, size=10, family=MONO))
 

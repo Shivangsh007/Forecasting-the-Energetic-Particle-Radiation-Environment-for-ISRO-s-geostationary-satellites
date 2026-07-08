@@ -870,3 +870,30 @@ fresh run.
 No model, feature, or hazard-logic changes were made this session (none were warranted by
 the verification). Changed files: this log, the re-stamped panel JSON, and the fresh live
 payload/buffer from today's poll.
+
+### Stage D follow-up (same day) — deployed-app probe found + fixed a log-axis display bug
+
+**Probe of the live deployment** (`geo-radiation-forecast.streamlit.app`, headless-Edge +
+Selenium DOM reads): app awake; its own in-process daemon polling (payload minutes old);
+Model Performance + GRASP panels render the committed panel-JSON numbers exactly; telemetry,
+hazard, bulletin, and asset cards all consistent with one payload. **Data correct.** But the
+forecast hero's log y-axis was stretched to ~10^250 pfu, squashing all real data flat.
+
+**Root-caused by bisection, not guesswork** (Selenium reads of `_fullLayout.yaxis.range`
+on figure variants): NOT a Streamlit/plotly version issue (reproduced identically on local
+1.58/plotly.js 3.5.1 and deployed 1.59/3.6.0; trace data proven sane, 2.9–6,708 pfu).
+The trigger: **plotly.js interprets annotation y-coordinates on a log axis in log10 space**,
+and the "= persistence" annotation passed the raw +30 min forecast in pfu
+(`charts.py forecast_figure`) — y=224 pfu was read as 10^224, and autorange dutifully
+spanned it (blowup magnitude = 10^(forecast pfu), so a storm replay implied 10^16684).
+Empirical proof: hlines/vline variants SANE; linear-y annotation BLOWN; log10-y annotation
+SANE — exact numeric match to both observed ranges (224x1.112 = 249.0, 251x1.116 = 280.3).
+
+**Fix (one line + comment):** `y=math.log10(max(f["flux"], 0.1))` in the annotation.
+Verified: standalone renders of live AND 2025-10-06 CRITICAL replay payloads — yrange
+[0.28, 4.01] / [3.00, 4.75], annotation anchored exactly at log10(flux) (2.3500 / 4.2223);
+real `streamlit run` + DOM probe confirms in-app; AppTest live + storm replay pass.
+The hazard strip, telemetry, panel numbers, and marker VALUES were never wrong — this was
+an axis-scaling display defect only, but it made the hero chart unreadable. Also of note:
+the AppTest harness cannot catch this class of bug (it never runs plotly.js); the
+Selenium/DOM-range probe (`scratchpad/probe_dom.py` method) is the tool that caught it.
