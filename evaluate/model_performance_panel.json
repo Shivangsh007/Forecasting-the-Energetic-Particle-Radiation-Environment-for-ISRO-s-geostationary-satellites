@@ -46,7 +46,7 @@
   "context": {
     "model_revision": "post-Stage-A R7-R11 (83 features: +short-flux-trend, +rate-of-change/pressure-jump; +12h storm-weighted; +30min/+6h depth-tuned)",
     "last_trained_utc": "2026-07-07T17:12:21.580961+00:00",
-    "generated_utc": "2026-07-07T17:17:23.189548+00:00",
+    "generated_utc": "2026-07-08T13:27:15.322233+00:00",
     "grasp_cross_longitude_2017_out_of_time": {
       "description": "Independent ISRO GSAT-19/GRASP data, Indian longitude, Jul-Dec 2017 - OUTSIDE the training time window.",
       "6h": {

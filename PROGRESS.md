@@ -731,7 +731,9 @@ checklist. Open items moved to "Open / deferred" below.
 - ~~Hyperparameter search~~ → DONE (R11): depth-5 adopted at +30min/+6h, small real gains.
 - ~~Live +6h/+12h skill below offline (no real-time AE/SYM-H)~~ → **LARGELY CLOSED (R10)**:
   SYM_H now sourced from real-time Kyoto Dst, recovers ~100% of the SYM_H-attributable skill.
-- Still open: **AE_INDEX** has no real-time SWPC source → NaN live (~2-3% of gain; small);
+- Still open: **AE_INDEX** has no real-time source → NaN live (~2-3% of gain; small) —
+  re-confirmed 2026-07-08 (Stage D): Kyoto's digital realtime-AE repo is monthly batches
+  with ~1–5 wk latency; SuperMAG SME is a research API, not an operational feed;
   GRASP energy-channel equivalence unconfirmed (caveat [A]); R4 calibration refresh on a second
   storm; the 27-day Carrington + longest SYM_H lags still mature over the live buffer's ~40 days.
 
@@ -806,3 +808,65 @@ verified with real headless-Edge screenshots at 1920/1366/1024/768/430 px, Live 
   edge, all GEO slots visible, no internal scroll.
 - **Regression:** cloud-mode AppTest re-run post-changes — Live + Replay render, no exception,
   perf panel present.
+
+## Stage D — full data-integrity re-verification of the Stage-A accuracy work (2026-07-08)
+
+**Context:** an accuracy-refinement request re-specified Stage A's items (30-min trend
+features, storm ROC/jump features, storm weighting, live-gap closure, hyperparameter grid,
+coupling honesty note). All six were found already implemented, adopted, committed (4aaafb4)
+and pushed as R7–R11 + the Step-7 note — confirmed against the artifacts, not the log
+(metrics_section5.json, feature_manifest.json, train_common.py STORM_WEIGHTS/PER_HORIZON_PARAMS,
+panel JSON all match the R7–R11 numbers exactly). **Judgment call: verify, don't re-run** —
+the experiments are seed-fixed/deterministic and re-running them would only reproduce the
+adopted results while risking artifact drift. This session therefore executed the
+verification-and-closure items fresh against the FINAL committed models:
+
+**1. Train↔daemon feature identity — re-PROVEN numerically (not asserted):** rebuilt all
+features from the raw master CSV through the daemon/GRASP `assemble_features()` path and
+compared against the stored training matrix: **83/83 columns × 749,358 rows, worst relative
+diff 5.96e-08 (float32 storage epsilon), 0 NaN-mask mismatches**. Per-horizon counts
+79/81/78 confirmed from the manifest.
+
+**2. Horizon-target timestamp alignment:** y_log_{h}(t) vs log_flux(t+h) by TIMESTAMP lookup,
+4,000 sampled rows per horizon — **0 mismatches / 12,000, max |diff| = 0.0**.
+
+**3. Committed models reproduce committed metrics — bit-exact:** loading xgb_{h}.json and
+predicting the chronological test split reproduces the frozen test_predictions_{h}.parquet
+with max |pred−frozen| = 0.0 at every horizon, and every number in metrics_section5.json,
+metrics_summary.json, and model_performance_panel.json to float precision. Storm-subset
+(SYM-H<−50) metrics recomputed and confirmed: 30min 495 pfu / HSS 0.757, 6h 833 pfu /
+HSS 0.650 (persist 0.474), 12h 1035 pfu / HSS 0.660 (persist 0.387).
+
+**4. Dashboard integrity — every displayed number traces to real current data:** code audit
+of app.py/charts.py/hazard.py found **no hardcoded metric values** — the only numeric
+literals are the documented operational thresholds (1000/10000 pfu), skill-band cutoffs,
+and CSS/styling; all metrics flow from model_performance_panel.json and
+metrics_section5/metrics_summary via `snapshot.load_context()`. **Single-payload consistency
+confirmed:** hazard strip, telemetry cards, sparkline, forecast hero, asset cards, bulletin,
+and report download all render the ONE payload dict loaded per rerun (no panel shows a
+different moment); checked the live payload programmatically — hazard peak_flux == max(now,
+forecasts), satellites' local_flux == telemetry flux, observed series ends at valid_time.
+**Live end-to-end re-verified today:** fresh daemon poll 2026-07-08 13:23Z — all 4 feeds OK
+(incl. Kyoto Dst→SYM_H), status ok, 273.4 pfu → Green. Headless AppTest: Live renders the
+fresh payload with the panel-JSON HSS/GRASP numbers present; Replay of 2025-10-06 renders
+CRITICAL; no exceptions.
+
+**5. AE_INDEX live-gap re-investigated (item-4 residual) — still no wireable source, now with
+evidence:** Kyoto WDC began publishing *digital* real-time-AE values (Dec 2024) at
+`wdc.kugi.kyoto-u.ac.jp/ae_realtime/data_dir/`, but they are **monthly WDC-format batches
+with ~1–5 week publication latency** (measured today: the June 2026 batch appeared
+2026-07-08; May appeared Jun 12; no July directory exists) — useless for current-time
+features, and terms are non-commercial monitoring only. SuperMAG SME (AE-equivalent) is a
+registered research API, not an operational real-time feed. **Decision: AE stays NaN live**,
+per R10. Quantified impact unchanged: AE-derived features are 0.24% / 1.92% / 3.07% of
+per-horizon gain, i.e. the residual live deficit is ~2–3% of gain at +6h/+12h only
+(SYM_H — the driver that matters — is live via Dst, ~100% recovered).
+
+**6. model_performance_panel.json regenerated against the final models:** output
+**byte-identical except `generated_utc`** — confirming the committed panel already reflected
+the final Stage-A models (it was built 4 min after the last retrain), now re-stamped from a
+fresh run.
+
+No model, feature, or hazard-logic changes were made this session (none were warranted by
+the verification). Changed files: this log, the re-stamped panel JSON, and the fresh live
+payload/buffer from today's poll.
