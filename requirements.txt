@@ -5,6 +5,7 @@ numpy>=2.2
 pandas>=2.3
 pyarrow>=24.0          # parquet engine (features slice + model predictions)
 xgboost>=3.2           # the 3 per-horizon regressors
+scikit-learn>=1.5      # required by xgboost's sklearn wrapper (XGBRegressor)
 streamlit>=1.58        # dashboard/app.py
 plotly>=6.8            # dashboard/charts.py
 #
