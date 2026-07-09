@@ -63,7 +63,19 @@ section[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { di
   box-shadow:none!important; outline:none!important; border-color:var(--edge-hi)!important; }
 /* rows: content rows top-aligned; the control strip (has the radio) centers */
 div[data-testid="stHorizontalBlock"] { align-items:flex-start; flex-wrap:wrap; row-gap:0.45rem; }
-div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) { align-items:center; }
+div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) {
+  align-items:center; gap:0.6rem; }
+/* control strip: every control is a natural-width chip at ALL widths (the
+   proportional st.columns widths left huge voids between IST/refresh/report,
+   worst 900-1200px where the empty replay-date column ate 2.4 flex shares).
+   Col 2 (replay date/time, empty in Live) is the one flexible spacer -> the
+   IST/refresh/report trio sits as a tight right-aligned cluster. */
+div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) > div[data-testid="stColumn"] {
+  flex:0 0 auto!important; width:auto!important; min-width:0!important; }
+div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) > div[data-testid="stColumn"]:nth-child(2) {
+  flex:1 1 auto!important; }
+div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) > div[data-testid="stColumn"]:nth-child(2) div[data-testid="stHorizontalBlock"] {
+  max-width:430px; }  /* replay date+time stay compact beside the radio */
 [data-testid="stRadio"] div[role="radiogroup"] { gap:0.6rem; flex-wrap:nowrap; }
 [data-testid="stRadio"] label p, [data-testid="stCheckbox"] label p {
   font-family:var(--mono); font-size:0.8rem; color:var(--ink); white-space:nowrap; }
@@ -117,11 +129,6 @@ table.mp th { font-family:var(--cond); text-transform:uppercase; letter-spacing:
 table.mp td.rl { text-align:left; font-family:var(--cond); text-transform:uppercase;
     letter-spacing:0.05em; color:var(--muted); font-size:0.74rem; }
 /* responsive: stack content columns below laptop width; control strip keeps its row */
-@media (max-width: 900px) {
-  /* control strip: columns shrink to natural width and wrap as a row of chips */
-  div[data-testid="stHorizontalBlock"]:has(div[data-testid="stRadio"]) > div[data-testid="stColumn"] {
-    flex:0 1 auto!important; width:auto!important; min-width:0!important; }
-}
 @media (max-width: 1200px) {
   div[data-testid="stHorizontalBlock"]:not(:has(div[data-testid="stRadio"])) > div[data-testid="stColumn"] {
     flex:1 1 100%!important; width:100%!important; min-width:100%!important; }

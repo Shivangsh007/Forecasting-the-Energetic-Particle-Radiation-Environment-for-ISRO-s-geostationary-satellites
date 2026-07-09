@@ -959,3 +959,12 @@ the deployed instance's own single daemon loop is live-polling. Singleton: prove
 in-process locally (5 sessions -> 1 thread); on the cloud container thread enumeration
 isn't reachable, but the unchanged cache_resource path + single-step 5-min payload cadence
 under concurrent probe sessions are consistent with exactly one daemon loop.
+
+**Follow-up (user-reported): control-strip spacing.** Between ~900-1200 px the IST / refresh
+/ REPORT controls floated far apart: the strip's proportional `st.columns` widths held at
+those widths (the ≤900 px chip rule hadn't kicked in yet) and the empty replay-date column
+consumed 2.4 flex shares in Live mode. Fix: the natural-width chip rule now applies at ALL
+widths, with column 2 (replay date/time; empty in Live) as the single flexible spacer — so
+the trio is a tight right-aligned cluster; the replay date+time block is capped at 430 px so
+it stays beside the radio. Verified with real-browser shots at 1920/1100/768/430, Live AND
+Replay (2025-10-06 CRITICAL renders unchanged); ≤900 media block removed as subsumed.
