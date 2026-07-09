@@ -897,3 +897,51 @@ The hazard strip, telemetry, panel numbers, and marker VALUES were never wrong �
 an axis-scaling display defect only, but it made the hero chart unreadable. Also of note:
 the AppTest harness cannot catch this class of bug (it never runs plotly.js); the
 Selenium/DOM-range probe (`scratchpad/probe_dom.py` method) is the tool that caught it.
+
+## Stage E — UI-pass verification + scientist-usability additions (2026-07-09)
+
+**Context:** the UI-polish request (responsive fixes, header alignment, report-button
+restyle, red-accent cleanup, font readability, equirectangular GEO map, general polish —
+items matching Stage C-3 verbatim) was found already implemented and committed
+(1fdba18 + f1315ac, plus the Stage-D-follow-up axis fix 01906e0). **Judgment call: re-verify
+on the CURRENT code with fresh real-browser renders instead of redoing.** Precondition
+confirmed first: `model_performance_panel.json` current (generated 2026-07-08 13:27Z, after
+the final models; byte-stable regen proven in Stage D).
+
+**Re-verification of the C-3 items (run, not assumed):** Selenium/Edge sweep at
+1920/1366/1024/768/430 px on a real `streamlit run` with fresh live data (poll 2026-07-09
+13:55Z, all 4 feeds OK): **no horizontal page scroll at any width** (documentElement
+scrollWidth == clientWidth at all five), control strip wraps to chips ≤900 px, telemetry
+cards auto-grid, hero/table/map stack cleanly at 430 px, chart axis sane (post-01906e0),
+equirectangular map edge-to-edge with all GEO slots visible, perf panel + GRASP panel
+render the committed JSON numbers.
+
+**NEW — usability for domain experts (the genuinely outstanding part), all data-driven,
+no scope expansion:**
+1. **Numeric forecast readout** (`forecast_table_html`, app.py): a mono HUD table under the
+   hero chart — LEAD | VALID (UTC/IST per toggle) | FORECAST (pfu) | ±1σ BAND (pfu) |
+   PERSIST (pfu) | SKILL (HSS gain) — exact values always visible, no hovering required.
+   Caption now defines the band (test-set log-RMSE inverted to pfu).
+2. **Report download rebuilt** (`report_text`, app.py): full plain-text numeric bulletin —
+   generated/valid timestamps (UTC), source/status/data-age, missing inputs, hazard level +
+   thresholds, all 4 telemetry values with units + 1 h deltas, per-horizon forecast table
+   (valid time, pfu, 68% band, persistence, skill/HSS gain), flux-calibration trace
+   (raw SWPC -> NCEI-scale), model revision + trained date + per-horizon HSS + training
+   range. ASCII-safe (verified `str.isascii()`).
+3. **Methodology/training range surfaced** (`build_model_performance_panel.py` + panel
+   render): new `training` context block DERIVED from the real feature matrix + the shared
+   split fractions (data 2018-01-01 -> 2025-12-31; train end 2023-08-02 06:00; test from
+   2024-11-22 15:30 — matches the documented Section-5 boundaries exactly, computed not
+   hardcoded); rendered as a "Data: ..." line in the perf panel next to revision/trained
+   date/GRASP. Panel JSON regenerated; **all metric values byte-identical**, only the new
+   context block + timestamp changed.
+4. **Units audit:** every displayed number carries its unit (pfu/nT/km/s on cards + deltas
+   /h, pfu in both tables' headers, thresholds named in pfu, map lon in °E) — confirmed by
+   inspection of every render path; no unlabeled numbers found.
+
+**Verification:** extended AppTest (live + 2025-10-06 CRITICAL replay): no exceptions;
+forecast table + training line + panel HSS values asserted in rendered markdown; report
+content asserted (units, timestamps, forecast rows, training range). Full-height 1920 px
+screenshot confirms the complete page. **Daemon singleton re-proven after the changes:
+5 concurrent AppTest sessions in one process -> exactly 1 `solarsentinel-daemon` thread**
+(cache_resource path untouched). Live-deployment verification recorded below after push.

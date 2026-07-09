@@ -68,6 +68,26 @@ def main():
             "note": note,
         }
 
+    # Training/validation/test calendar periods, derived from the real feature
+    # matrix + the same split fractions as train_common (70/15/15 chronological),
+    # so the dashboard can state the training range without hardcoding it.
+    # Builder runs offline where features_master.parquet exists; the values are
+    # embedded in the JSON for the deployed app.
+    training = None
+    feat = ROOT / "features" / "features_master.parquet"
+    if feat.exists():
+        idx = pd.read_parquet(feat, columns=["log_flux"]).index
+        n = len(idx)
+        t_train_end, t_val_end = idx[int(n * 0.70)], idx[int(n * 0.85)]
+        training = {
+            "data_start": str(idx.min())[:16],
+            "train_end": str(t_train_end)[:16],
+            "val_end": str(t_val_end)[:16],
+            "data_end": str(idx.max())[:16],
+            "split": "chronological 70/15/15 (never shuffled)",
+            "source": "GOES >2 MeV integral electrons (NCEI L2) + OMNI HRO2, 5-min cadence",
+        }
+
     g17 = grasp["2017_out_of_time"]
     context = {
         "model_revision": ("post-Stage-A R7-R11 (83 features: +short-flux-trend, "
@@ -76,6 +96,7 @@ def main():
         "last_trained_utc": datetime.fromtimestamp(
             (MODELS / "xgb_6h.json").stat().st_mtime, tz=timezone.utc).isoformat(),
         "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "training": training,
         "grasp_cross_longitude_2017_out_of_time": {
             "description": ("Independent ISRO GSAT-19/GRASP data, Indian longitude, "
                             "Jul-Dec 2017 - OUTSIDE the training time window."),

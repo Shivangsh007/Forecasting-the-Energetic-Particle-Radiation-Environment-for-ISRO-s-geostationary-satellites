@@ -46,7 +46,15 @@
   "context": {
     "model_revision": "post-Stage-A R7-R11 (83 features: +short-flux-trend, +rate-of-change/pressure-jump; +12h storm-weighted; +30min/+6h depth-tuned)",
     "last_trained_utc": "2026-07-07T17:12:21.580961+00:00",
-    "generated_utc": "2026-07-08T13:27:15.322233+00:00",
+    "generated_utc": "2026-07-09T14:01:40.681899+00:00",
+    "training": {
+      "data_start": "2018-01-01 00:00",
+      "train_end": "2023-08-02 06:00",
+      "val_end": "2024-11-22 15:30",
+      "data_end": "2025-12-31 23:55",
+      "split": "chronological 70/15/15 (never shuffled)",
+      "source": "GOES >2 MeV integral electrons (NCEI L2) + OMNI HRO2, 5-min cadence"
+    },
     "grasp_cross_longitude_2017_out_of_time": {
       "description": "Independent ISRO GSAT-19/GRASP data, Indian longitude, Jul-Dec 2017 - OUTSIDE the training time window.",
       "6h": {

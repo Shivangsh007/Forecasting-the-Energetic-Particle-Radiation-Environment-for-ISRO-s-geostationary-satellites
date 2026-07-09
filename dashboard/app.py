@@ -200,6 +200,91 @@ def telem_html(payload):
     return f'<div class="telem-grid">{out}</div>'
 
 
+def forecast_table_html(payload, tz_ist):
+    """Exact numeric forecast values, always visible under the hero chart
+    (domain-expert rule: never make a scientist hover to read a number)."""
+    rows = ""
+    for h in ["30min", "6h", "12h"]:
+        f = payload["forecast"][h]
+        rows += (f"<tr><td class='rl'>{HORIZON_LABELS[h]}</td>"
+                 f"<td>{fmt_time(f['valid_time'], tz_ist)}</td>"
+                 f"<td>{f['flux']:,.0f}</td>"
+                 f"<td>{f['lo']:,.0f} – {f['hi']:,.0f}</td>"
+                 f"<td>{f['persist']:,.0f}</td>"
+                 f"<td>{f['skill']} ({f['hss_gain']:+.3f})</td></tr>")
+    return (f'<div class="mp-wrap"><table class="mp">'
+            f'<tr><th style="text-align:left">LEAD</th><th>VALID</th>'
+            f'<th>FORECAST (PFU)</th><th>±1σ BAND (PFU)</th>'
+            f'<th>PERSIST (PFU)</th><th>SKILL (HSS GAIN)</th></tr>'
+            f'{rows}</table></div>')
+
+
+def report_text(payload, panel):
+    """Plain-text report with raw numeric values, explicit units, and
+    timestamps -- built for further analysis, not a styled summary."""
+    hz = payload["hazard"]
+    L = ["SOLARSENTINEL HAZARD BULLETIN",
+         "=" * 46,
+         f"Generated : {payload['generated_at']} UTC",
+         f"Valid     : {payload['valid_time']} UTC",
+         f"Source    : {payload['source']} | status: {payload.get('status','ok')}"
+         + (f" | data age: {payload['data_age_min']} min"
+            if payload.get("data_age_min") is not None else ""),
+         ]
+    if payload.get("missing_inputs"):
+        L.append(f"Missing inputs (NaN to model): {', '.join(payload['missing_inputs'])}")
+    L += ["",
+          "HAZARD",
+          f"  Level {hz['level']} ({hz['title']}) - peak {hz['peak_flux']:,.0f} pfu "
+          f"(driver: {hz['driver_horizon']})",
+          "  Thresholds: EVENT 1,000 pfu | SEVERE 10,000 pfu (NOAA >2 MeV)",
+          "",
+          "TELEMETRY (at valid time; delta = change over last 1 h)"]
+    for lbl, key in [(">2 MeV flux", "flux_2MeV"), ("Solar wind speed", "flow_speed"),
+                     ("IMF Bz (GSM)", "BZ_GSM"), ("SYM-H", "SYM_H")]:
+        tm = payload["telemetry"][key]
+        v = "n/a" if tm["value"] is None else f"{tm['value']:,.1f} {tm['unit']}"
+        d = "" if tm["delta"] is None else f" (delta {tm['delta']:+,.1f} {tm['unit']}/h)"
+        L.append(f"  {lbl:<17s}: {v}{d}")
+    L += ["",
+          "FORECAST (>2 MeV integral electron flux)",
+          f"  {'lead':<8s} {'valid (UTC)':<20s} {'pfu':>9s} "
+          f"{'68% band (pfu)':>20s} {'persist':>9s}  skill (HSS gain)"]
+    for h in ["30min", "6h", "12h"]:
+        f = payload["forecast"][h]
+        band = f"{f['lo']:,.0f} - {f['hi']:,.0f}"
+        L.append(f"  {HORIZON_LABELS[h]:<8s} {f['valid_time']:<20s} "
+                 f"{f['flux']:>9,.0f} {band:>20s} {f['persist']:>9,.0f}  "
+                 f"{f['skill']} ({f['hss_gain']:+.3f})")
+    fcb = payload.get("flux_calibration") or {}
+    if fcb.get("applied"):
+        L += ["", f"FLUX CALIBRATION: SWPC {fcb['raw_swpc_pfu']:,.1f} -> "
+                  f"NCEI-scale {fcb['calibrated_pfu']:,.1f} pfu (provisional fit)"]
+    if panel:
+        c = panel["context"]
+        L += ["", f"MODEL: {c['model_revision']}",
+              f"  trained {c['last_trained_utc'][:10]}; "
+              f"test HSS@1000pfu {panel['per_horizon']['30min']['hss']:.3f} / "
+              f"{panel['per_horizon']['6h']['hss']:.3f} / "
+              f"{panel['per_horizon']['12h']['hss']:.3f} (+30min/+6h/+12h)"]
+        tr = c.get("training")
+        if tr:
+            L.append(f"  training data {tr['data_start']} -> {tr['train_end']}; "
+                     f"split {tr['split']}; test {tr['val_end']} -> {tr['data_end']}")
+    L += ["", f"NOTE: {payload['note_local_flux']}"]
+    return "\n".join(L)
+
+
+def _training_html(ctx):
+    """Methodology line for the perf panel: data source, training range, split."""
+    tr = ctx.get("training")
+    if not tr:
+        return ""
+    return (f'<div class="lbl" style="margin-top:4px">Data: {tr["source"]} · '
+            f'{tr["data_start"][:10]} → {tr["data_end"][:10]} · {tr["split"]} · '
+            f'test from {tr["val_end"][:10]}</div>')
+
+
 def model_perf_html(pd_):
     ph, ctx = pd_["per_horizon"], pd_["context"]
     hs = ["30min", "6h", "12h"]
@@ -264,12 +349,8 @@ if status == "error" or "satellites" not in payload:
     st.stop()
 
 hz = payload["hazard"]
-report = (f"SolarSentinel Hazard Bulletin\nValid: {payload['valid_time']} UTC\n"
-          f"Status: {hz['level']} ({hz['title']})\n{hz['message']}\n\nForecast:\n" +
-          "\n".join(f"  {HORIZON_LABELS[h]}: {payload['forecast'][h]['flux']:,.0f} pfu "
-                    f"(skill: {payload['forecast'][h]['skill']})" for h in
-                    ["30min", "6h", "12h"]))
-report_slot.download_button("⤓ Report", report,
+panel_json = json.loads(PANEL_JSON.read_text()) if PANEL_JSON.exists() else None
+report_slot.download_button("⤓ Report", report_text(payload, panel_json),
                             file_name=f"bulletin_{payload['valid_time'][:16].replace(':','')}.txt")
 
 # thin stale / degraded strip (same logic, HUD styling)
@@ -313,9 +394,11 @@ with ccol:
         st.markdown('<div class="lbl">Observed → forecast · >2 MeV flux (pfu, log scale)</div>',
                     unsafe_allow_html=True)
         st.plotly_chart(forecast_figure(payload), width="stretch", config=FC_CONFIG)
-    st.markdown('<div class="lbl">Forecasts are discrete (3 trained horizons); markers not '
-                'interpolated. Marker size/opacity ∝ validated skill vs persistence — '
-                '+30 min ties persistence (HSS≈0), +6 h/+12 h add skill.</div>',
+    st.markdown(forecast_table_html(payload, tz_ist), unsafe_allow_html=True)
+    st.markdown('<div class="lbl" style="margin-top:4px">Forecasts are discrete (3 trained '
+                'horizons); markers not interpolated. Marker size/opacity ∝ validated skill '
+                'vs persistence — +30 min ties persistence (HSS≈0), +6 h/+12 h add skill. '
+                '±1σ band = model log-RMSE on the test set, inverted to pfu.</div>',
                 unsafe_allow_html=True)
 
 with rcol:
@@ -342,8 +425,8 @@ with rcol:
 # --------------------------------------------------- model performance panel --- #
 st.markdown('<div style="border-top:1px solid var(--edge);margin:8px 0 6px 0"></div>',
             unsafe_allow_html=True)
-if PANEL_JSON.exists():
-    pdj = json.loads(PANEL_JSON.read_text())
+if panel_json:
+    pdj = panel_json
     ctx = pdj["context"]
     g = ctx["grasp_cross_longitude_2017_out_of_time"]
     n = pdj["per_horizon"]
@@ -369,6 +452,7 @@ if PANEL_JSON.exists():
           <td>{g['12h']['hss_1000pfu']:.2f}</td><td>{g['12h']['hss_persist']:.2f}</td></tr></table></div>
           <div class="lbl" style="margin-top:6px">{ctx['model_revision']} · trained
           {ctx['last_trained_utc'][:10]} · test n={n['30min']['n_test']:,}/{n['6h']['n_test']:,}/{n['12h']['n_test']:,}</div>
+          {_training_html(ctx)}
           </div>""", unsafe_allow_html=True)
 else:
     st.caption("model_performance_panel.json not found — run "
