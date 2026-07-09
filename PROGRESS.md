@@ -945,3 +945,17 @@ content asserted (units, timestamps, forecast rows, training range). Full-height
 screenshot confirms the complete page. **Daemon singleton re-proven after the changes:
 5 concurrent AppTest sessions in one process -> exactly 1 `solarsentinel-daemon` thread**
 (cache_resource path untouched). Live-deployment verification recorded below after push.
+
+**Live deployment verified (geo-radiation-forecast.streamlit.app, after push 6d96ccd):**
+the free-tier app had gone to sleep; woken via the wake button (Selenium), booted on the
+new commit — proven by the presence of the NEW elements (numeric forecast table, training
+range line) in the rendered DOM. Checks on the LIVE url, not localhost: forecast-plot
+y-range sane [0.278, 4.004] (log10); numeric table + training/split line + panel HSS
+0.898/0.710/0.665 + LIVE_DAEMON tag + current valid timestamp all present; full-page
+screenshots at **1920 px and 430 px** — map edge-to-edge with all GEO slots at both widths,
+no page h-scroll, mobile stack clean. Between two captures the payload advanced one poll
+(valid 19:25 -> 19:40 IST, flux 244 -> 785 pfu, still Green) with every panel consistent —
+the deployed instance's own single daemon loop is live-polling. Singleton: proven directly
+in-process locally (5 sessions -> 1 thread); on the cloud container thread enumeration
+isn't reachable, but the unchanged cache_resource path + single-step 5-min payload cadence
+under concurrent probe sessions are consistent with exactly one daemon loop.
